@@ -20,3 +20,21 @@ photogallery
 offices
 benefits
 contact
+
+Текущая структура проекта:
+practiceTL-website-builder
+|-main.html
+|-README.md
+|-data/database.json
+|-scripts/
+| |-lenis.min.js
+| ...
+|
+|-media/main/
+| |-fonts/
+| ...
+|
+|-styles/main/
+  |-lenis.css
+  |-style.min.css
+  |-swiper-bundle.min.css
