@@ -94,77 +94,77 @@
 }
 @font-face {
   font-family: "Manrope";
-  src: url(../assets/fonts/manrope/Manrope-ExtraLight.woff) format("woff");
+  src: url(../../media/main/fonts/Manrope-ExtraLight.woff) format("woff");
   font-style: normal;
   font-display: swap;
   font-weight: 200;
 }
 @font-face {
   font-family: "Manrope";
-  src: url(../assets/fonts/manrope/Manrope-Light.woff) format("woff");
+  src: url(../../media/main/fonts/Manrope-Light.woff) format("woff");
   font-style: normal;
   font-display: swap;
   font-weight: 300;
 }
 @font-face {
   font-family: "Manrope";
-  src: url(../assets/fonts/manrope/Manrope-Regular.woff) format("woff");
+  src: url(../../media/main/fonts/Manrope-Regular.woff) format("woff");
   font-style: normal;
   font-display: swap;
   font-weight: 400;
 }
 @font-face {
   font-family: "Manrope";
-  src: url(../assets/fonts/manrope/Manrope-Medium.woff) format("woff");
+  src: url(../../media/main/fonts/Manrope-Medium.woff) format("woff");
   font-style: normal;
   font-display: swap;
   font-weight: 500;
 }
 @font-face {
   font-family: "Manrope";
-  src: url(../assets/fonts/manrope/Manrope-SemiBold.woff) format("woff");
+  src: url(../../media/main/fonts/Manrope-SemiBold.woff) format("woff");
   font-style: normal;
   font-display: swap;
   font-weight: 600;
 }
 @font-face {
   font-family: "Manrope";
-  src: url(../assets/fonts/manrope/Manrope-Bold.woff) format("woff");
+  src: url(../../media/main/fonts/Manrope-Bold.woff) format("woff");
   font-style: normal;
   font-display: swap;
   font-weight: 700;
 }
 @font-face {
   font-family: "Manrope";
-  src: url(../assets/fonts/manrope/Manrope-ExtraBold.woff) format("woff");
+  src: url(../../media/main/fonts/Manrope-ExtraBold.woff) format("woff");
   font-style: normal;
   font-display: swap;
   font-weight: 800;
 }
 @font-face {
   font-family: "Involve";
-  src: url(../assets/fonts/involve/Involve-Regular.woff) format("woff");
+  src: url(../../media/main/fonts/Involve-Regular.woff) format("woff");
   font-style: normal;
   font-display: swap;
   font-weight: 400;
 }
 @font-face {
   font-family: "Involve";
-  src: url(../assets/fonts/involve/Involve-Medium.woff) format("woff");
+  src: url(../../media/main/fonts/Involve-Medium.woff) format("woff");
   font-style: normal;
   font-display: swap;
   font-weight: 500;
 }
 @font-face {
   font-family: "Involve";
-  src: url(../assets/fonts/involve/Involve-SemiBold.woff) format("woff");
+  src: url(../../media/main/fonts/Involve-SemiBold.woff) format("woff");
   font-style: normal;
   font-display: swap;
   font-weight: 600;
 }
 @font-face {
   font-family: "Involve";
-  src: url(../assets/fonts/involve/Involve-Bold.woff) format("woff");
+  src: url(../../media/main/fonts/Involve-Bold.woff) format("woff");
   font-style: normal;
   font-display: swap;
   font-weight: 700;
