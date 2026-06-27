@@ -72,6 +72,15 @@ public class HeroController : ControllerBase
         var deleted = await _service.DeleteAsync(id);
         if (!deleted)
             return NotFound();
-        return NoContent(); 
+        return NoContent();
+    }
+
+    // POST /api/hero/reorder => новый порядок 
+    // (тело: массив id, например [3,1,2])
+    [HttpPost("reorder")]
+    public async Task<IActionResult> Reorder([FromBody] List<int> orderedIds)
+    {
+        await _service.ReorderAsync(orderedIds);
+        return NoContent();
     }
 }

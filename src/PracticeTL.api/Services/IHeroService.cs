@@ -10,4 +10,5 @@ public interface IHeroService
     Task<HeroItem> CreateAsync(HeroItemInput input);
     Task<HeroItem?> UpdateAsync(int id, HeroItemInput input);
     Task<bool> DeleteAsync(int id);
+    Task ReorderAsync(List<int> orderedIds); 
 }

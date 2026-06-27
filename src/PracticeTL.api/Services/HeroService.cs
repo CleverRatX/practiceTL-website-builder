@@ -30,12 +30,15 @@ public class HeroService : IHeroService
     {
         Validate(input);
 
+        var hasItems = await _db.HeroItems.AnyAsync();
+        var maxOrder = hasItems ? await _db.HeroItems.MaxAsync(i => i.SortOrder) : 0;
+
         var item = new HeroItem
         {
             Type = input.Type,
             Value = input.Value,
             Label = input.Label,
-            SortOrder = input.SortOrder
+            SortOrder = maxOrder + 1
         };
 
         _db.HeroItems.Add(item);
@@ -54,8 +57,7 @@ public class HeroService : IHeroService
         item.Type = input.Type;
         item.Value = input.Value;
         item.Label = input.Label;
-        item.SortOrder = input.SortOrder;
-
+        
         await _db.SaveChangesAsync();
         return item;
     }
@@ -69,6 +71,20 @@ public class HeroService : IHeroService
         _db.HeroItems.Remove(item);
         await _db.SaveChangesAsync();
         return true;
+    }
+
+    public async Task ReorderAsync(List<int> orderedIds)
+    {
+        var items = await _db.HeroItems.ToListAsync();
+
+        for (int i = 0; i < orderedIds.Count; i++)
+        {
+            var item = items.FirstOrDefault(x => x.Id == orderedIds[i]);
+            if (item != null)
+                item.SortOrder = i + 1;
+        }
+
+        await _db.SaveChangesAsync();
     }
 
     private static void Validate(HeroItemInput input)
