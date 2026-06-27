@@ -9,8 +9,12 @@
 Ключевая идея: изменения, сделанные в админке, сразу отражаются на публичной
 странице без перезапуска сервера.
 
+Стек:
+.NET 8.0
+PostgreSQL 18.4
+
 Модули основной страницы:
-hero
+hero(advantages)
 team
 timeline
 hotels
@@ -21,20 +25,9 @@ offices
 benefits
 contact
 
-Текущая структура проекта:
-practiceTL-website-builder
-|-main.html
-|-README.md
-|-data/database.json
-|-scripts/
-| |-lenis.min.js
-| ...
-|
-|-media/main/
-| |-fonts/
-| ...
-|
-|-styles/main/
-  |-lenis.css
-  |-style.min.css
-  |-swiper-bundle.min.css
+## Todo
+
+- [ ] Остальные блоки
+- [ ] Логин/пароль для админки
+- [ ] Docker
+
