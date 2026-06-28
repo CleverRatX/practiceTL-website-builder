@@ -15,7 +15,7 @@
 
 ### Модули основной страницы:
 - [x] hero
-- [ ] team
+- [x] team
 - [ ] timeline
 - [ ] hotels
 - [ ] direction
