@@ -5,10 +5,11 @@ namespace PracticeTL.Api.Services;
 
 public interface IHeroService
 {
-    Task<List<HeroItem>> GetAllAsync();
-    Task<HeroItem?> GetByIdAsync(int id);
-    Task<HeroItem> CreateAsync(HeroItemInput input);
-    Task<HeroItem?> UpdateAsync(int id, HeroItemInput input);
-    Task<bool> DeleteAsync(int id);
-    Task ReorderAsync(List<int> orderedIds); 
+    Task<Hero> GetHeroAsync();
+    Task UpdateInfoAsync(HeroInfoInput input);
+
+    Task<HeroStat> AddStatAsync(HeroStatInput input);
+    Task<HeroStat?> UpdateStatAsync(int id, HeroStatInput input);
+    Task<bool> DeleteStatAsync(int id);
+    Task ReorderStatsAsync(List<int> orderedIds);
 }

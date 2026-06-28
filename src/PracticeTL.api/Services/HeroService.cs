@@ -14,80 +14,82 @@ public class HeroService : IHeroService
         _db = db;
     }
 
-    public async Task<List<HeroItem>> GetAllAsync()
+    public async Task<Hero> GetHeroAsync()
     {
-        return await _db.HeroItems
-            .OrderBy(item => item.SortOrder)
-            .ToListAsync();
+        var hero = await _db.Heroes
+            .Include(h => h.Stats.OrderBy(s => s.SortOrder))
+            .FirstAsync();
+        return hero;
     }
 
-    public async Task<HeroItem?> GetByIdAsync(int id)
+    public async Task UpdateInfoAsync(HeroInfoInput input)
     {
-        return await _db.HeroItems.FindAsync(id);
+        var hero = await _db.Heroes.FirstAsync();
+        hero.Title = input.Title;
+        hero.Subtitle = input.Subtitle;
+        await _db.SaveChangesAsync();
     }
 
-    public async Task<HeroItem> CreateAsync(HeroItemInput input)
+    public async Task<HeroStat> AddStatAsync(HeroStatInput input)
     {
         Validate(input);
 
-        var hasItems = await _db.HeroItems.AnyAsync();
-        var maxOrder = hasItems ? await _db.HeroItems.MaxAsync(i => i.SortOrder) : 0;
+        var hero = await _db.Heroes.Include(h => h.Stats).FirstAsync();
+        var maxOrder = hero.Stats.Count > 0 ? hero.Stats.Max(s => s.SortOrder) : 0;
 
-        var item = new HeroItem
+        var stat = new HeroStat
         {
             Type = input.Type,
             Value = input.Value,
             Label = input.Label,
-            SortOrder = maxOrder + 1
+            SortOrder = maxOrder + 1,
+            HeroId = hero.Id
         };
 
-        _db.HeroItems.Add(item);
+        _db.HeroStats.Add(stat);
         await _db.SaveChangesAsync();
-        return item;
+        return stat;
     }
 
-    public async Task<HeroItem?> UpdateAsync(int id, HeroItemInput input)
+    public async Task<HeroStat?> UpdateStatAsync(int id, HeroStatInput input)
     {
         Validate(input);
 
-        var item = await _db.HeroItems.FindAsync(id);
-        if (item is null)
+        var stat = await _db.HeroStats.FindAsync(id);
+        if (stat is null)
             return null;
 
-        item.Type = input.Type;
-        item.Value = input.Value;
-        item.Label = input.Label;
-        
+        stat.Type = input.Type;
+        stat.Value = input.Value;
+        stat.Label = input.Label;
         await _db.SaveChangesAsync();
-        return item;
+        return stat;
     }
 
-    public async Task<bool> DeleteAsync(int id)
+    public async Task<bool> DeleteStatAsync(int id)
     {
-        var item = await _db.HeroItems.FindAsync(id);
-        if (item is null)
+        var stat = await _db.HeroStats.FindAsync(id);
+        if (stat is null)
             return false;
 
-        _db.HeroItems.Remove(item);
+        _db.HeroStats.Remove(stat);
         await _db.SaveChangesAsync();
         return true;
     }
 
-    public async Task ReorderAsync(List<int> orderedIds)
+    public async Task ReorderStatsAsync(List<int> orderedIds)
     {
-        var items = await _db.HeroItems.ToListAsync();
-
+        var stats = await _db.HeroStats.ToListAsync();
         for (int i = 0; i < orderedIds.Count; i++)
         {
-            var item = items.FirstOrDefault(x => x.Id == orderedIds[i]);
-            if (item != null)
-                item.SortOrder = i + 1;
+            var stat = stats.FirstOrDefault(s => s.Id == orderedIds[i]);
+            if (stat != null)
+                stat.SortOrder = i + 1;
         }
-
         await _db.SaveChangesAsync();
     }
 
-    private static void Validate(HeroItemInput input)
+    private static void Validate(HeroStatInput input)
     {
         if (string.IsNullOrWhiteSpace(input.Value))
             throw new ArgumentException("Поле value не может быть пустым");

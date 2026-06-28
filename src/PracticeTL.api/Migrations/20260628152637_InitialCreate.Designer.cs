@@ -11,7 +11,7 @@ using PracticeTL.Api.Data;
 namespace PracticeTL.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260626223704_InitialCreate")]
+    [Migration("20260628152637_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -24,13 +24,37 @@ namespace PracticeTL.Api.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("PracticeTL.Api.Models.HeroItem", b =>
+            modelBuilder.Entity("PracticeTL.Api.Models.Hero", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Subtitle")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Heroes");
+                });
+
+            modelBuilder.Entity("PracticeTL.Api.Models.HeroStat", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("HeroId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Label")
                         .IsRequired()
@@ -49,7 +73,23 @@ namespace PracticeTL.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("HeroItems");
+                    b.HasIndex("HeroId");
+
+                    b.ToTable("HeroStats");
+                });
+
+            modelBuilder.Entity("PracticeTL.Api.Models.HeroStat", b =>
+                {
+                    b.HasOne("PracticeTL.Api.Models.Hero", null)
+                        .WithMany("Stats")
+                        .HasForeignKey("HeroId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PracticeTL.Api.Models.Hero", b =>
+                {
+                    b.Navigation("Stats");
                 });
 #pragma warning restore 612, 618
         }

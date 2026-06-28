@@ -15,32 +15,30 @@ public class HeroController : ControllerBase
         _service = service;
     }
 
-    // GET /api/hero => список всех элементов
+    // GET /api/hero  → весь блок: { title, subtitle, stats: [...] }
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> Get()
     {
-        var items = await _service.GetAllAsync();
-        return Ok(items);
+        var hero = await _service.GetHeroAsync();
+        return Ok(hero);
     }
 
-    // GET /api/hero/5  => найти один элемент
-    [HttpGet("{id:int}")]
-    public async Task<IActionResult> GetById(int id)
+    // GET /api/hero => список всех элементов
+    [HttpPut]
+    public async Task<IActionResult> UpdateInfo([FromBody] HeroInfoInput input)
     {
-        var item = await _service.GetByIdAsync(id);
-        if (item is null)
-            return NotFound();
-        return Ok(item);
+        await _service.UpdateInfoAsync(input);
+        return NoContent();
     }
 
     // POST /api/hero => создать элемент
-    [HttpPost]
-    public async Task<IActionResult> Create([FromBody] HeroItemInput input)
+    [HttpPost("stats")]
+    public async Task<IActionResult> AddStat([FromBody] HeroStatInput input)
     {
         try
         {
-            var created = await _service.CreateAsync(input);
-            return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
+            var stat = await _service.AddStatAsync(input);
+            return Ok(stat);
         }
         catch (ArgumentException ex)
         {
@@ -49,15 +47,14 @@ public class HeroController : ControllerBase
     }
 
     // PUT /api/hero/5  => изменить элемент
-    [HttpPut("{id:int}")]
-    public async Task<IActionResult> Update(int id, [FromBody] HeroItemInput input)
+    [HttpPut("stats/{id:int}")]
+    public async Task<IActionResult> UpdateStat(int id, [FromBody] HeroStatInput input)
     {
         try
         {
-            var updated = await _service.UpdateAsync(id, input);
-            if (updated is null)
-                return NotFound();
-            return Ok(updated);
+            var stat = await _service.UpdateStatAsync(id, input);
+            if (stat is null) return NotFound();
+            return Ok(stat);
         }
         catch (ArgumentException ex)
         {
@@ -65,22 +62,20 @@ public class HeroController : ControllerBase
         }
     }
 
-    // DELETE /api/hero/5  => удалить по id
-    [HttpDelete("{id:int}")]
-    public async Task<IActionResult> Delete(int id)
+    // DELETE /api/hero/5 => удалить по id
+    [HttpDelete("stats/{id:int}")]
+    public async Task<IActionResult> DeleteStat(int id)
     {
-        var deleted = await _service.DeleteAsync(id);
-        if (!deleted)
-            return NotFound();
+        var deleted = await _service.DeleteStatAsync(id);
+        if (!deleted) return NotFound();
         return NoContent();
     }
 
-    // POST /api/hero/reorder => новый порядок 
-    // (тело: массив id, например [3,1,2])
-    [HttpPost("reorder")]
+    // POST /api/hero/reorder => новый порядок
+    [HttpPost("stats/reorder")]
     public async Task<IActionResult> Reorder([FromBody] List<int> orderedIds)
     {
-        await _service.ReorderAsync(orderedIds);
+        await _service.ReorderStatsAsync(orderedIds);
         return NoContent();
     }
 }

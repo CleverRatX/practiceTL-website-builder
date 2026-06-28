@@ -9,7 +9,6 @@ public class AppDbContext : DbContext
     {
     }
 
-    public DbSet<HeroItem> HeroItems => Set<HeroItem>();
-    
-    // \public DbSet<TeamMember> TeamMembers => Set<TeamMember>();
+    public DbSet<Hero> Heroes => Set<Hero>();
+    public DbSet<HeroStat> HeroStats => Set<HeroStat>();
 }
