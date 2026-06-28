@@ -10,24 +10,23 @@
 странице без перезапуска сервера.
 
 Стек:
-.NET 8.0
-PostgreSQL 18.4
+- .NET 8.0
+- PostgreSQL 18.4
 
-Модули основной страницы:
-hero(advantages)
-team
-timeline
-hotels
-direction
-vacancies
-photogallery
-offices
-benefits
-contact
+### Модули основной страницы:
+- [x] hero
+- [ ] team
+- [ ] timeline
+- [ ] hotels
+- [ ] direction
+- [ ] vacancies
+- [ ] photogallery
+- [ ] offices
+- [ ] benefits
+- [ ] contact
 
-## Todo
+### Todo
 
-- [ ] Остальные блоки
 - [ ] Логин/пароль для админки
 - [ ] Docker
 
