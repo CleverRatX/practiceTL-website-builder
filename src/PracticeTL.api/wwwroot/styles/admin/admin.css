@@ -144,3 +144,14 @@ code {
   border-radius: 3px;
   font-size: 12px;
 }
+
+.grid--2 {
+  grid-template-columns: 1fr 1fr;
+}
+
+.photo-preview--logo {
+  width: 64px;
+  height: 40px;
+  object-fit: contain;
+  background: #2b3a55;
+}

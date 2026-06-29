@@ -239,5 +239,155 @@ async function deleteMember(id) {
     await loadTeam();
 }
 
+const PLATFORM_API = '/api/platform';
+const platformTbody = document.getElementById('platform-items');
+enableDropZone(platformTbody);
+
+async function loadPlatform() {
+    const res = await fetch(PLATFORM_API);
+    const items = await res.json();
+    platformTbody.innerHTML = '';
+    for (const it of items) {
+        platformTbody.appendChild(buildPlatformRow(it));
+    }
+}
+
+function buildPlatformRow(it) {
+    const tr = document.createElement('tr');
+    tr.dataset.id = it.id;
+    tr.innerHTML = `
+        <td class="drag-handle">≡</td>
+        <td><input class="f-year" value="${escapeHtml(it.year)}"></td>
+        <td><input class="f-name" value="${escapeHtml(it.name)}"></td>
+        <td class="row-actions">
+            <button class="save">Сохранить</button>
+            <button class="danger del">Удалить</button>
+        </td>`;
+    tr.querySelector('.save').addEventListener('click', () => savePlatform(it.id, tr));
+    tr.querySelector('.del').addEventListener('click', () => deletePlatform(it.id));
+    attachDrag(tr, savePlatformOrder);
+    return tr;
+}
+
+async function savePlatformOrder() {
+    const ids = [...platformTbody.querySelectorAll('tr')].map(tr => Number(tr.dataset.id));
+    const res = await fetch(PLATFORM_API + '/reorder', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(ids)
+    });
+    if (!res.ok) { alert('Не удалось сохранить порядок'); }
+    await loadPlatform();
+}
+
+async function addPlatform() {
+    const body = {
+        year: document.getElementById('new-pf-year').value,
+        name: document.getElementById('new-pf-name').value
+    };
+    const res = await fetch(PLATFORM_API, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
+    });
+    if (!res.ok) { alert('Ошибка: ' + (await res.text())); return; }
+    ['new-pf-year', 'new-pf-name'].forEach(id => document.getElementById(id).value = '');
+    await loadPlatform();
+}
+
+async function savePlatform(id, tr) {
+    const body = {
+        year: tr.querySelector('.f-year').value,
+        name: tr.querySelector('.f-name').value
+    };
+    const res = await fetch(PLATFORM_API + '/' + id, {
+        method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
+    });
+    if (!res.ok) { alert('Ошибка: ' + (await res.text())); return; }
+    await loadPlatform();
+}
+
+async function deletePlatform(id) {
+    if (!confirm('Удалить продукт #' + id + '?')) return;
+    const res = await fetch(PLATFORM_API + '/' + id, { method: 'DELETE' });
+    if (!res.ok) { alert('Ошибка: ' + (await res.text())); return; }
+    await loadPlatform();
+}
+
+const BRANDS_API = '/api/brands';
+const brandsTbody = document.getElementById('brands-items');
+enableDropZone(brandsTbody);
+
+async function loadBrands() {
+    const res = await fetch(BRANDS_API);
+    const brands = await res.json();
+    brandsTbody.innerHTML = '';
+    for (const b of brands) {
+        brandsTbody.appendChild(buildBrandRow(b));
+    }
+}
+
+function buildBrandRow(b) {
+    const tr = document.createElement('tr');
+    tr.dataset.id = b.id;
+    tr.innerHTML = `
+        <td class="drag-handle">≡</td>
+        <td>
+            <img class="photo-preview photo-preview--logo" src="${escapeHtml(b.logo)}" alt="">
+            <input class="f-logo" value="${escapeHtml(b.logo)}" placeholder="/media/main/hotels/...">
+        </td>
+        <td><input class="f-name" value="${escapeHtml(b.name)}"></td>
+        <td class="row-actions">
+            <button class="save">Сохранить</button>
+            <button class="danger del">Удалить</button>
+        </td>`;
+    const logoInput = tr.querySelector('.f-logo');
+    const preview = tr.querySelector('.photo-preview');
+    logoInput.addEventListener('input', () => { preview.src = logoInput.value; });
+    tr.querySelector('.save').addEventListener('click', () => saveBrand(b.id, tr));
+    tr.querySelector('.del').addEventListener('click', () => deleteBrand(b.id));
+    attachDrag(tr, saveBrandsOrder);
+    return tr;
+}
+
+async function saveBrandsOrder() {
+    const ids = [...brandsTbody.querySelectorAll('tr')].map(tr => Number(tr.dataset.id));
+    const res = await fetch(BRANDS_API + '/reorder', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(ids)
+    });
+    if (!res.ok) { alert('Не удалось сохранить порядок'); }
+    await loadBrands();
+}
+
+async function addBrand() {
+    const body = {
+        name: document.getElementById('new-br-name').value,
+        logo: document.getElementById('new-br-logo').value
+    };
+    const res = await fetch(BRANDS_API, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
+    });
+    if (!res.ok) { alert('Ошибка: ' + (await res.text())); return; }
+    ['new-br-name', 'new-br-logo'].forEach(id => document.getElementById(id).value = '');
+    await loadBrands();
+}
+
+async function saveBrand(id, tr) {
+    const body = {
+        name: tr.querySelector('.f-name').value,
+        logo: tr.querySelector('.f-logo').value
+    };
+    const res = await fetch(BRANDS_API + '/' + id, {
+        method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
+    });
+    if (!res.ok) { alert('Ошибка: ' + (await res.text())); return; }
+    await loadBrands();
+}
+
+async function deleteBrand(id) {
+    if (!confirm('Удалить бренд #' + id + '?')) return;
+    const res = await fetch(BRANDS_API + '/' + id, { method: 'DELETE' });
+    if (!res.ok) { alert('Ошибка: ' + (await res.text())); return; }
+    await loadBrands();
+}
+
 loadHero();
 loadTeam();
+loadPlatform();
+loadBrands();

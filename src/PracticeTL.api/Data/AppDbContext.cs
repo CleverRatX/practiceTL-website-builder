@@ -12,4 +12,6 @@ public class AppDbContext : DbContext
     public DbSet<Hero> Heroes => Set<Hero>();
     public DbSet<HeroStat> HeroStats => Set<HeroStat>();
     public DbSet<TeamMember> TeamMembers => Set<TeamMember>();
+    public DbSet<PlatformItem> PlatformItems => Set<PlatformItem>();
+    public DbSet<Brand> Brands => Set<Brand>();
 }

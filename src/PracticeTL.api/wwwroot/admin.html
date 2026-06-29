@@ -62,7 +62,6 @@
         <hr>
 
         <h2>Команда</h2>
-        <p class="hint">Порядок меняется перетаскиванием за значок "≡"</p>
 
         <table>
             <thead>
@@ -94,6 +93,68 @@
                 </div>
             </div>
             <p><button onclick="addMember()">Добавить</button></p>
+        </div>
+
+        <hr>
+
+        <h2>Платформа</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th style="width:80px">Год</th>
+                    <th>Название</th>
+                    <th style="width:170px">Действия</th>
+                </tr>
+            </thead>
+            <tbody id="platform-items"></tbody>
+        </table>
+
+        <div class="add-form">
+            <h3>Добавить продукт</h3>
+            <div class="grid grid--2">
+                <div>
+                    <label>Год</label>
+                    <input id="new-pf-year" placeholder="2024">
+                </div>
+                <div>
+                    <label>Название</label>
+                    <input id="new-pf-name" placeholder="Billing">
+                </div>
+            </div>
+            <p><button onclick="addPlatform()">Добавить</button></p>
+        </div>
+
+        <hr>
+
+        <h2>Бренды</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th style="width:90px">Логотип</th>
+                    <th>Название</th>
+                    <th style="width:170px">Действия</th>
+                </tr>
+            </thead>
+            <tbody id="brands-items"></tbody>
+        </table>
+
+        <div class="add-form">
+            <h3>Добавить бренд</h3>
+            <div class="grid grid--2">
+                <div>
+                    <label>Название</label>
+                    <input id="new-br-name" placeholder="Cosmos">
+                </div>
+                <div>
+                    <label>Путь к логотипу</label>
+                    <input id="new-br-logo" placeholder="/media/main/hotels/...">
+                </div>
+            </div>
+            <p><button onclick="addBrand()">Добавить</button></p>
         </div>
 
         <script src="./scripts/admin.js"></script>

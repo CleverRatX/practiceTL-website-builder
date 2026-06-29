@@ -16,9 +16,9 @@
 ### Модули основной страницы:
 - [x] hero
 - [x] team
-- [ ] timeline
-- [ ] hotels
-- [ ] direction
+- [x] platform
+- [x] brands
+- [ ] directions
 - [ ] vacancies
 - [ ] photogallery
 - [ ] offices
