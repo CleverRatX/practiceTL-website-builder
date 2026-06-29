@@ -138,10 +138,14 @@ public class HomeController : ControllerBase
     private static string BuildBrands(List<Brand> brands)
     {
         var sb = new StringBuilder();
-        sb.Append("<ul class=\"brands__list swiper-slide\">");
-        foreach (var b in brands)
-            sb.Append($"<li class=\"brands__item\"><img src=\"{Enc(b.Logo)}\" alt=\"{Enc(b.Name)}\"></li>");
-        sb.Append("</ul>");
+        const int slides = 4;
+        for (int s = 0; s < slides; s++)
+        {
+            sb.Append("<ul class=\"brands__list swiper-slide\">");
+            foreach (var b in brands)
+                sb.Append($"<li class=\"brands__item\"><img src=\"{Enc(b.Logo)}\" alt=\"{Enc(b.Name)}\"></li>");
+            sb.Append("</ul>");
+        }
         return sb.ToString();
     }
 
