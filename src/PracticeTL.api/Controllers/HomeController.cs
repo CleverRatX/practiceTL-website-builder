@@ -12,6 +12,8 @@ public class HomeController : ControllerBase
     private readonly ITeamService _teamService;
     private readonly IPlatformService _platformService;
     private readonly IBrandService _brandService;
+    private readonly IDirectionService _directionService;
+    private readonly IVacancyService _vacancyService;
     private readonly IWebHostEnvironment _env;
 
     public HomeController(
@@ -19,12 +21,16 @@ public class HomeController : ControllerBase
         ITeamService teamService,
         IPlatformService platformService,
         IBrandService brandService,
+        IDirectionService directionService,
+        IVacancyService vacancyService,
         IWebHostEnvironment env)
     {
         _heroService = heroService;
         _teamService = teamService;
         _platformService = platformService;
         _brandService = brandService;
+        _directionService = directionService;
+        _vacancyService = vacancyService;
         _env = env;
     }
 
@@ -39,6 +45,8 @@ public class HomeController : ControllerBase
         var team = await _teamService.GetAllAsync();
         var platform = await _platformService.GetAllAsync();
         var brands = await _brandService.GetAllAsync();
+        var directions = await _directionService.GetAllAsync();
+        var vacancies = await _vacancyService.GetAllAsync();
 
         html = html
             .Replace("<!--HERO_TITLE-->", Enc(hero.Title))
@@ -47,7 +55,9 @@ public class HomeController : ControllerBase
             .Replace("<!--HERO_STATS-->", BuildStatItems(hero.Stats))
             .Replace("<!--TEAM_ITEMS-->", BuildTeamCards(team))
             .Replace("<!--PLATFORM_ITEMS-->", BuildPlatform(platform))
-            .Replace("<!--BRANDS_ITEMS-->", BuildBrands(brands));
+            .Replace("<!--BRANDS_ITEMS-->", BuildBrands(brands))
+            .Replace("<!--DIRECTIONS_ITEMS-->", BuildDirections(directions))
+            .Replace("<!--VACANCIES_ITEMS-->", BuildVacancies(vacancies));
 
         return Content(html, "text/html; charset=utf-8");
     }
@@ -149,5 +159,62 @@ public class HomeController : ControllerBase
         return sb.ToString();
     }
 
+    private static string BuildDirections(List<Direction> directions)
+    {
+        var sb = new StringBuilder();
+        foreach (var d in directions)
+        {
+            sb.Append("<article class=\"directions__item accordion\">");
+            sb.Append("<div class=\"accordion__title\">");
+            sb.Append($"<span>{Enc(d.Name)}</span>");
+
+            var badges = (d.Badges ?? "")
+                .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+            if (badges.Length > 0)
+            {
+                sb.Append("<div class=\"accordion__title-stak-list bages-list\">");
+                foreach (var b in badges)
+                    sb.Append($"<div class=\"bages-list__item\">{Enc(b)}</div>");
+                sb.Append("</div>");
+            }
+
+            sb.Append($"<div class=\"accordion__toggle\">{ToggleIcon}</div>");
+            sb.Append("</div>");
+
+            sb.Append("<div class=\"accordion__body\">");
+            sb.Append($"<div class=\"accordion__content ustyle\">{d.Content}</div>");
+            sb.Append("</div>");
+
+            sb.Append("</article>");
+        }
+        return sb.ToString();
+    }
+
+    private static string BuildVacancies(List<Vacancy> vacancies)
+    {
+        var sb = new StringBuilder();
+        foreach (var v in vacancies)
+        {
+            sb.Append("<article class=\"vacancies__item card card--half-rounded\">");
+            sb.Append($"<h3 class=\"vacancies__item-title card__title heading heading--type-card\">{Enc(v.Title)}</h3>");
+            sb.Append("<div class=\"card__footer\">");
+            sb.Append($"<p class=\"vacancies__item-address card__address\">{Enc(v.Address)}</p>");
+            sb.Append($"<div class=\"card__footer-link\">{ArrowIcon}</div>");
+            sb.Append("</div>");
+            sb.Append($"<a href=\"{Enc(v.Url)}\" class=\"vacancies__item-lik\" target=\"_blank\"></a>");
+            sb.Append("</article>");
+        }
+
+        sb.Append("<article class=\"vacancies__item vacancies__item--type-more card card--half-rounded\">");
+        sb.Append($"<h3 class=\"vacancies__item-title card__title heading heading--type-card\">Еще больше вакансий на HeadHunter {MoreIcon}</h3>");
+        sb.Append("<a href=\"https://hh.ru/employer/1136961\" class=\"vacancies__item-lik\" target=\"_blank\"></a>");
+        sb.Append("</article>");
+
+        return sb.ToString();
+    }
+
+    private const string ToggleIcon = "<svg width=\"24\" height=\"14\" viewBox=\"0 0 24 14\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"2\" cy=\"2\" r=\"2\" fill=\"#507BCE\"></circle><circle cx=\"7\" cy=\"7\" r=\"2\" fill=\"#507BCE\"></circle><circle cx=\"12\" cy=\"12\" r=\"2\" fill=\"#507BCE\"></circle><circle cx=\"17\" cy=\"7\" r=\"2\" fill=\"#507BCE\"></circle><circle cx=\"22\" cy=\"2\" r=\"2\" fill=\"#507BCE\"></circle></svg>";
+    private const string MoreIcon = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"14\" height=\"24\" viewBox=\"0 0 14 24\" fill=\"none\"><circle cx=\"2\" cy=\"22\" r=\"2\" transform=\"rotate(-90 2 22)\" fill=\"white\"></circle><circle cx=\"7\" cy=\"17\" r=\"2\" transform=\"rotate(-90 7 17)\" fill=\"white\"></circle><circle cx=\"12\" cy=\"12\" r=\"2\" transform=\"rotate(-90 12 12)\" fill=\"white\"></circle><circle cx=\"7\" cy=\"7\" r=\"2\" transform=\"rotate(-90 7 7)\" fill=\"white\"></circle><circle cx=\"2\" cy=\"2\" r=\"2\" transform=\"rotate(-90 2 2)\" fill=\"white\"></circle></svg>";
+    private const string ArrowIcon = "<svg width=\"48\" height=\"48\" viewBox=\"0 0 48 48\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"24\" cy=\"24\" r=\"23\" stroke=\"#507BCE\" stroke-width=\"2\"></circle><path d=\"M19 19h10v10M29 19L19 29\" stroke=\"#507BCE\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path></svg>";
     private const string DefaultIcon = "<svg class=\"icon-block__img\" xmlns=\"http://www.w3.org/2000/svg\" width=\"40\" height=\"40\" viewBox=\"0 0 40 40\" fill=\"none\"><circle cx=\"20\" cy=\"20\" r=\"16\" stroke=\"white\" stroke-width=\"3\"></circle></svg>";
 }

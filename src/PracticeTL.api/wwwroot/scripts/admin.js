@@ -387,7 +387,154 @@ async function deleteBrand(id) {
     await loadBrands();
 }
 
+const DIRECTIONS_API = '/api/directions';
+const directionsTbody = document.getElementById('directions-items');
+enableDropZone(directionsTbody);
+
+async function loadDirections() {
+    const res = await fetch(DIRECTIONS_API);
+    const items = await res.json();
+    directionsTbody.innerHTML = '';
+    for (const d of items) {
+        directionsTbody.appendChild(buildDirectionRow(d));
+    }
+}
+
+function buildDirectionRow(d) {
+    const tr = document.createElement('tr');
+    tr.dataset.id = d.id;
+    tr.innerHTML = `
+        <td class="drag-handle">≡</td>
+        <td><input class="f-name" value="${escapeHtml(d.name)}"></td>
+        <td><input class="f-badges" value="${escapeHtml(d.badges)}"></td>
+        <td class="row-actions">
+            <button class="save">Сохранить</button>
+            <button class="danger del">Удалить</button>
+        </td>`;
+    tr.querySelector('.save').addEventListener('click', () => saveDirection(d.id, tr));
+    tr.querySelector('.del').addEventListener('click', () => deleteDirection(d.id));
+    attachDrag(tr, saveDirectionsOrder);
+    return tr;
+}
+
+async function saveDirectionsOrder() {
+    const ids = [...directionsTbody.querySelectorAll('tr')].map(tr => Number(tr.dataset.id));
+    const res = await fetch(DIRECTIONS_API + '/reorder', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(ids)
+    });
+    if (!res.ok) { alert('Не удалось сохранить порядок'); }
+    await loadDirections();
+}
+
+async function addDirection() {
+    const body = {
+        name: document.getElementById('new-dir-name').value,
+        badges: document.getElementById('new-dir-badges').value
+    };
+    const res = await fetch(DIRECTIONS_API, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
+    });
+    if (!res.ok) { alert('Ошибка: ' + (await res.text())); return; }
+    ['new-dir-name', 'new-dir-badges'].forEach(id => document.getElementById(id).value = '');
+    await loadDirections();
+}
+
+async function saveDirection(id, tr) {
+    const body = {
+        name: tr.querySelector('.f-name').value,
+        badges: tr.querySelector('.f-badges').value
+    };
+    const res = await fetch(DIRECTIONS_API + '/' + id, {
+        method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
+    });
+    if (!res.ok) { alert('Ошибка: ' + (await res.text())); return; }
+    await loadDirections();
+}
+
+async function deleteDirection(id) {
+    if (!confirm('Удалить направление #' + id + '?')) return;
+    const res = await fetch(DIRECTIONS_API + '/' + id, { method: 'DELETE' });
+    if (!res.ok) { alert('Ошибка: ' + (await res.text())); return; }
+    await loadDirections();
+}
+
+const VACANCIES_API = '/api/vacancies';
+const vacanciesTbody = document.getElementById('vacancies-items');
+enableDropZone(vacanciesTbody);
+
+async function loadVacancies() {
+    const res = await fetch(VACANCIES_API);
+    const items = await res.json();
+    vacanciesTbody.innerHTML = '';
+    for (const v of items) {
+        vacanciesTbody.appendChild(buildVacancyRow(v));
+    }
+}
+
+function buildVacancyRow(v) {
+    const tr = document.createElement('tr');
+    tr.dataset.id = v.id;
+    tr.innerHTML = `
+        <td class="drag-handle">≡</td>
+        <td><input class="f-title" value="${escapeHtml(v.title)}"></td>
+        <td><input class="f-address" value="${escapeHtml(v.address)}"></td>
+        <td><input class="f-url" value="${escapeHtml(v.url)}"></td>
+        <td class="row-actions">
+            <button class="save">Сохранить</button>
+            <button class="danger del">Удалить</button>
+        </td>`;
+    tr.querySelector('.save').addEventListener('click', () => saveVacancy(v.id, tr));
+    tr.querySelector('.del').addEventListener('click', () => deleteVacancy(v.id));
+    attachDrag(tr, saveVacanciesOrder);
+    return tr;
+}
+
+async function saveVacanciesOrder() {
+    const ids = [...vacanciesTbody.querySelectorAll('tr')].map(tr => Number(tr.dataset.id));
+    const res = await fetch(VACANCIES_API + '/reorder', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(ids)
+    });
+    if (!res.ok) { alert('Не удалось сохранить порядок'); }
+    await loadVacancies();
+}
+
+async function addVacancy() {
+    const body = {
+        title: document.getElementById('new-vac-title').value,
+        address: document.getElementById('new-vac-address').value,
+        url: document.getElementById('new-vac-url').value
+    };
+    const res = await fetch(VACANCIES_API, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
+    });
+    if (!res.ok) { alert('Ошибка: ' + (await res.text())); return; }
+    ['new-vac-title', 'new-vac-address', 'new-vac-url'].forEach(id => document.getElementById(id).value = '');
+    await loadVacancies();
+}
+
+async function saveVacancy(id, tr) {
+    const body = {
+        title: tr.querySelector('.f-title').value,
+        address: tr.querySelector('.f-address').value,
+        url: tr.querySelector('.f-url').value
+    };
+    const res = await fetch(VACANCIES_API + '/' + id, {
+        method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
+    });
+    if (!res.ok) { alert('Ошибка: ' + (await res.text())); return; }
+    await loadVacancies();
+}
+
+async function deleteVacancy(id) {
+    if (!confirm('Удалить вакансию #' + id + '?')) return;
+    const res = await fetch(VACANCIES_API + '/' + id, { method: 'DELETE' });
+    if (!res.ok) { alert('Ошибка: ' + (await res.text())); return; }
+    await loadVacancies();
+}
+
 loadHero();
 loadTeam();
 loadPlatform();
 loadBrands();
+loadDirections();
+loadVacancies();

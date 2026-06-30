@@ -18,7 +18,7 @@
             <input id="hero-title">
             <label>Подзаголовок</label>
             <textarea id="hero-subtitle" rows="3"></textarea>
-            <p class="hint">Каждая строка подзаголовка отдельная строка на странице</p>
+            <p class="hint">Каждая строка подзаголовка - отдельная строка на странице</p>
             <p><button onclick="saveInfo()">Сохранить шапку</button></p>
         </section>
 
@@ -155,6 +155,73 @@
                 </div>
             </div>
             <p><button onclick="addBrand()">Добавить</button></p>
+        </div>
+
+        <hr>
+
+        <h2>Направления</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th style="width:160px">Название</th>
+                    <th>Технологии(через запятую)</th>
+                    <th style="width:170px">Действия</th>
+                </tr>
+            </thead>
+            <tbody id="directions-items"></tbody>
+        </table>
+
+        <div class="add-form">
+            <h3>Добавить направление</h3>
+            <div class="grid grid--2">
+                <div>
+                    <label>Название</label>
+                    <input id="new-dir-name" placeholder="Backend">
+                </div>
+                <div>
+                    <label>Технологии (через запятую)</label>
+                    <input id="new-dir-badges" placeholder="C#, SQL, Redis">
+                </div>
+            </div>
+            <p><button onclick="addDirection()">Добавить</button></p>
+        </div>
+
+        <hr>
+
+        <h2>Вакансии</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Заголовок</th>
+                    <th style="width:130px">Формат/город</th>
+                    <th>Ссылка</th>
+                    <th style="width:170px">Действия</th>
+                </tr>
+            </thead>
+            <tbody id="vacancies-items"></tbody>
+        </table>
+
+        <div class="add-form">
+            <h3>Добавить вакансию</h3>
+            <div class="grid grid--team">
+                <div>
+                    <label>Заголовок</label>
+                    <input id="new-vac-title" placeholder="Python Developer">
+                </div>
+                <div>
+                    <label>Формат/город</label>
+                    <input id="new-vac-address" placeholder="удаленно">
+                </div>
+                <div>
+                    <label>Ссылка</label>
+                    <input id="new-vac-url" placeholder="https://hh.ru/vacancy/...">
+                </div>
+            </div>
+            <p><button onclick="addVacancy()">Добавить</button></p>
         </div>
 
         <script src="./scripts/admin.js"></script>

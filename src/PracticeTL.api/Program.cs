@@ -13,6 +13,8 @@ builder.Services.AddScoped<IHeroService, HeroService>();
 builder.Services.AddScoped<ITeamService, TeamService>();
 builder.Services.AddScoped<IPlatformService, PlatformService>();
 builder.Services.AddScoped<IBrandService, BrandService>();
+builder.Services.AddScoped<IDirectionService, DirectionService>();
+builder.Services.AddScoped<IVacancyService, VacancyService>();
 
 var app = builder.Build();
 
@@ -22,8 +24,10 @@ using (var scope = app.Services.CreateScope())
     db.Database.Migrate();
     HeroSeeder.Seed(db);
     TeamSeeder.Seed(db);
-    PlatformSeeder.Seed(db); 
+    PlatformSeeder.Seed(db);
     BrandSeeder.Seed(db);
+    DirectionSeeder.Seed(db);
+    VacancySeeder.Seed(db);
 }
 
 app.UseStaticFiles();

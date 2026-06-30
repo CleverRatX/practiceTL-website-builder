@@ -14,4 +14,6 @@ public class AppDbContext : DbContext
     public DbSet<TeamMember> TeamMembers => Set<TeamMember>();
     public DbSet<PlatformItem> PlatformItems => Set<PlatformItem>();
     public DbSet<Brand> Brands => Set<Brand>();
+    public DbSet<Direction> Directions => Set<Direction>();
+    public DbSet<Vacancy> Vacancies => Set<Vacancy>();
 }

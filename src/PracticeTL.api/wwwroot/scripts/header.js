@@ -3,21 +3,20 @@
     if (!header) return;
 
     const sections = [
-        { el: document.querySelector('.hero'), mode: 'light' },
+        { el: document.querySelector('.hero'),       mode: 'light' },
         { el: document.querySelector('.advantages'), mode: 'dark' },
-        { el: document.querySelector('.team'), mode: 'light' },
-        { el: document.querySelector('.platform'), mode: 'hidden' },
+        { el: document.querySelector('.team'),       mode: 'light' },
+        { el: document.querySelector('.platform'),   mode: 'hidden' },
+        { el: document.querySelector('.directions'), mode: 'dark' },
+        { el: document.querySelector('.slogan'),     mode: 'dark' },
+        { el: document.querySelector('.vacancies'),  mode: 'dark' },
     ].filter(s => s.el);
 
-    function topOf(el) {
-        return el.getBoundingClientRect().top + window.scrollY;
-    }
-
     function updateHeader() {
-        const line = window.scrollY + header.offsetHeight;
+        const line = header.offsetHeight;
         let mode = 'light';
         for (const s of sections) {
-            if (topOf(s.el) <= line) mode = s.mode;
+            if (s.el.getBoundingClientRect().top <= line) mode = s.mode;
         }
         header.classList.toggle('header--type-dark', mode === 'dark');
         header.classList.toggle('header--type-hidden', mode === 'hidden');
