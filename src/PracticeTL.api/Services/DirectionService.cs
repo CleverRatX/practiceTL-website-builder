@@ -23,7 +23,7 @@ public class DirectionService : IDirectionService
         {
             Name = input.Name,
             Badges = input.Badges,
-            Content = "",
+            Content = input.Content,
             SortOrder = maxOrder + 1
         };
         _db.Directions.Add(direction);
@@ -39,6 +39,7 @@ public class DirectionService : IDirectionService
 
         direction.Name = input.Name;
         direction.Badges = input.Badges;
+        direction.Content = input.Content;
         await _db.SaveChangesAsync();
         return direction;
     }

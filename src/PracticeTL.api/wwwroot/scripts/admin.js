@@ -259,6 +259,7 @@ function buildPlatformRow(it) {
         <td class="drag-handle">≡</td>
         <td><input class="f-year" value="${escapeHtml(it.year)}"></td>
         <td><input class="f-name" value="${escapeHtml(it.name)}"></td>
+        <td><textarea class="f-desc" rows="2">${escapeHtml(it.description)}</textarea></td>
         <td class="row-actions">
             <button class="save">Сохранить</button>
             <button class="danger del">Удалить</button>
@@ -281,20 +282,22 @@ async function savePlatformOrder() {
 async function addPlatform() {
     const body = {
         year: document.getElementById('new-pf-year').value,
-        name: document.getElementById('new-pf-name').value
+        name: document.getElementById('new-pf-name').value,
+        description: document.getElementById('new-pf-desc').value
     };
     const res = await fetch(PLATFORM_API, {
         method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
     });
     if (!res.ok) { alert('Ошибка: ' + (await res.text())); return; }
-    ['new-pf-year', 'new-pf-name'].forEach(id => document.getElementById(id).value = '');
+    ['new-pf-year', 'new-pf-name', 'new-pf-desc'].forEach(id => document.getElementById(id).value = '');
     await loadPlatform();
 }
 
 async function savePlatform(id, tr) {
     const body = {
         year: tr.querySelector('.f-year').value,
-        name: tr.querySelector('.f-name').value
+        name: tr.querySelector('.f-name').value,
+        description: tr.querySelector('.f-desc').value
     };
     const res = await fetch(PLATFORM_API + '/' + id, {
         method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
@@ -407,6 +410,7 @@ function buildDirectionRow(d) {
         <td class="drag-handle">≡</td>
         <td><input class="f-name" value="${escapeHtml(d.name)}"></td>
         <td><input class="f-badges" value="${escapeHtml(d.badges)}"></td>
+        <td><textarea class="f-content" rows="3">${escapeHtml(d.content)}</textarea></td>
         <td class="row-actions">
             <button class="save">Сохранить</button>
             <button class="danger del">Удалить</button>
@@ -429,20 +433,22 @@ async function saveDirectionsOrder() {
 async function addDirection() {
     const body = {
         name: document.getElementById('new-dir-name').value,
-        badges: document.getElementById('new-dir-badges').value
+        badges: document.getElementById('new-dir-badges').value,
+        content: document.getElementById('new-dir-content').value
     };
     const res = await fetch(DIRECTIONS_API, {
         method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
     });
     if (!res.ok) { alert('Ошибка: ' + (await res.text())); return; }
-    ['new-dir-name', 'new-dir-badges'].forEach(id => document.getElementById(id).value = '');
+    ['new-dir-name', 'new-dir-badges', 'new-dir-content'].forEach(id => document.getElementById(id).value = '');
     await loadDirections();
 }
 
 async function saveDirection(id, tr) {
     const body = {
         name: tr.querySelector('.f-name').value,
-        badges: tr.querySelector('.f-badges').value
+        badges: tr.querySelector('.f-badges').value,
+        content: tr.querySelector('.f-content').value
     };
     const res = await fetch(DIRECTIONS_API + '/' + id, {
         method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)

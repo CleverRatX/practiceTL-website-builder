@@ -42,26 +42,27 @@ public class PlatformServiceTests
     }
 
     [Fact]
-    public async Task UpdateAsync_МеняетГодИНазвание_НоСохраняетЦветИконкуОписание()
+    public async Task UpdateAsync_МеняетГодНазваниеОписание_НоСохраняетЦветИИконку()
     {
         using var db = TestDb.Create();
         var item = new PlatformItem
         {
             Year = "2009", Name = "Booking Engine", Variant = 2,
-            Icon = "<svg>иконка</svg>", Description = "<b>описание</b>", SortOrder = 1
+            Icon = "<svg>иконка</svg>", Description = "старое", SortOrder = 1
         };
         db.PlatformItems.Add(item);
         await db.SaveChangesAsync();
         var service = new PlatformService(db);
 
-        var updated = await service.UpdateAsync(item.Id, new PlatformItemInput { Year = "2010", Name = "Новое имя" });
+        var updated = await service.UpdateAsync(item.Id,
+            new PlatformItemInput { Year = "2010", Name = "Новое имя", Description = "новое описание" });
 
         Assert.NotNull(updated);
         Assert.Equal("2010", updated!.Year);
         Assert.Equal("Новое имя", updated.Name);
+        Assert.Equal("новое описание", updated.Description);
         Assert.Equal(2, updated.Variant);
         Assert.Equal("<svg>иконка</svg>", updated.Icon);
-        Assert.Equal("<b>описание</b>", updated.Description);
     }
 
     [Fact]

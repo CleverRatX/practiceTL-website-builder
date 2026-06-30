@@ -23,9 +23,9 @@ public class PlatformService : IPlatformService
         {
             Year = input.Year,
             Name = input.Name,
+            Description = input.Description,
             Variant = 1,
             Icon = "",
-            Description = "",
             SortOrder = maxOrder + 1
         };
         _db.PlatformItems.Add(item);
@@ -41,6 +41,7 @@ public class PlatformService : IPlatformService
 
         item.Year = input.Year;
         item.Name = input.Name;
+        item.Description = input.Description;
         await _db.SaveChangesAsync();
         return item;
     }

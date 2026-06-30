@@ -117,17 +117,19 @@ public class HomeController : ControllerBase
 
     private static string BuildPlatform(List<PlatformItem> items)
     {
+        var columns = items
+            .GroupBy(p => p.Year)
+            .OrderBy(g => YearNumber(g.Key))
+            .ToList();
+
         var sb = new StringBuilder();
-        int i = 0;
-        while (i < items.Count)
+        foreach (var col in columns)
         {
-            var year = items[i].Year;
             sb.Append("<div class=\"platform-chart__col\">");
-            sb.Append($"<p class=\"platform-chart__col-title\">{Enc(year)}</p>");
+            sb.Append($"<p class=\"platform-chart__col-title\">{Enc(col.Key)}</p>");
             sb.Append("<div class=\"platform-chart__col-items\">");
-            while (i < items.Count && items[i].Year == year)
+            foreach (var it in col.OrderBy(x => x.SortOrder))
             {
-                var it = items[i];
                 var variant = it.Variant > 0 ? it.Variant : 1;
                 var icon = string.IsNullOrWhiteSpace(it.Icon) ? DefaultIcon : it.Icon;
                 sb.Append($"<div class=\"platform-chart__col-item icon-block icon-block--{variant}\">");
@@ -138,11 +140,16 @@ public class HomeController : ControllerBase
                 sb.Append($"<p class=\"icon-block__text\">{Enc(it.Name)}</p>");
                 sb.Append($"<p class=\"icon-block__year\">{Enc(it.Year)}</p>");
                 sb.Append("</div>");
-                i++;
             }
             sb.Append("</div></div>");
         }
         return sb.ToString();
+    }
+
+    private static int YearNumber(string year)
+    {
+        var digits = new string(year.Where(char.IsDigit).ToArray());
+        return int.TryParse(digits, out var n) ? n : 0;
     }
 
     private static string BuildBrands(List<Brand> brands)
@@ -215,6 +222,6 @@ public class HomeController : ControllerBase
 
     private const string ToggleIcon = "<svg width=\"24\" height=\"14\" viewBox=\"0 0 24 14\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"2\" cy=\"2\" r=\"2\" fill=\"#507BCE\"></circle><circle cx=\"7\" cy=\"7\" r=\"2\" fill=\"#507BCE\"></circle><circle cx=\"12\" cy=\"12\" r=\"2\" fill=\"#507BCE\"></circle><circle cx=\"17\" cy=\"7\" r=\"2\" fill=\"#507BCE\"></circle><circle cx=\"22\" cy=\"2\" r=\"2\" fill=\"#507BCE\"></circle></svg>";
     private const string MoreIcon = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"14\" height=\"24\" viewBox=\"0 0 14 24\" fill=\"none\"><circle cx=\"2\" cy=\"22\" r=\"2\" transform=\"rotate(-90 2 22)\" fill=\"white\"></circle><circle cx=\"7\" cy=\"17\" r=\"2\" transform=\"rotate(-90 7 17)\" fill=\"white\"></circle><circle cx=\"12\" cy=\"12\" r=\"2\" transform=\"rotate(-90 12 12)\" fill=\"white\"></circle><circle cx=\"7\" cy=\"7\" r=\"2\" transform=\"rotate(-90 7 7)\" fill=\"white\"></circle><circle cx=\"2\" cy=\"2\" r=\"2\" transform=\"rotate(-90 2 2)\" fill=\"white\"></circle></svg>";
-    private const string ArrowIcon = "<svg width=\"48\" height=\"48\" viewBox=\"0 0 48 48\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"24\" cy=\"24\" r=\"23\" stroke=\"#507BCE\" stroke-width=\"2\"></circle><path d=\"M19 19h10v10M29 19L19 29\" stroke=\"#507BCE\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path></svg>";
+    private const string ArrowIcon = "<img src=\"/media/main/icons/hh.png\" width=\"48\" height=\"48\" alt=\"hh.ru\">";
     private const string DefaultIcon = "<svg class=\"icon-block__img\" xmlns=\"http://www.w3.org/2000/svg\" width=\"40\" height=\"40\" viewBox=\"0 0 40 40\" fill=\"none\"><circle cx=\"20\" cy=\"20\" r=\"16\" stroke=\"white\" stroke-width=\"3\"></circle></svg>";
 }

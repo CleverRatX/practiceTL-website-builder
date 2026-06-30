@@ -8,6 +8,18 @@
         <link rel="stylesheet" href="./styles/main/lenis.css">
         <link rel="stylesheet" href="./styles/main/swiper-bundle.min.css">
         <link rel="stylesheet" href="./styles/main/style.min.css">
+        <style>
+            .page--dark-bg .advantages,
+            .page--dark-bg .platform,
+            .page--dark-bg .directions,
+            .page--dark-bg .slogan,
+            .page--dark-bg .vacancies {
+                background-color: #fff;
+            }
+            .page--dark-bg .team {
+                background-color: #507bce;
+            }
+        </style>
         <link rel="icon" type="image/png" href="https://travelline.tech/favicon-96x96.png" sizes="96x96">
     </head>
     <body>
@@ -251,6 +263,13 @@
             <script src="./scripts/vue.js"></script>
             <script src="./scripts/v-mask.min.js"></script>
             <script src="./scripts/build.min.js"></script>
+            <script>
+                window.addEventListener('load', function () {
+                    if (window.ScrollTrigger) {
+                        window.ScrollTrigger.refresh();
+                    }
+                });
+            </script>
             <script src="./scripts/header.js"></script>
         </main>
     </body>

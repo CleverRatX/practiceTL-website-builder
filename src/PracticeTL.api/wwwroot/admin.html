@@ -103,8 +103,9 @@
             <thead>
                 <tr>
                     <th></th>
-                    <th style="width:80px">Год</th>
-                    <th>Название</th>
+                    <th style="width:70px">Год</th>
+                    <th style="width:150px">Название</th>
+                    <th>Описание(HTML)</th>
                     <th style="width:170px">Действия</th>
                 </tr>
             </thead>
@@ -113,7 +114,7 @@
 
         <div class="add-form">
             <h3>Добавить продукт</h3>
-            <div class="grid grid--2">
+            <div class="grid grid--team">
                 <div>
                     <label>Год</label>
                     <input id="new-pf-year" placeholder="2024">
@@ -121,6 +122,10 @@
                 <div>
                     <label>Название</label>
                     <input id="new-pf-name" placeholder="Billing">
+                </div>
+                <div>
+                    <label>Описание</label>
+                    <input id="new-pf-desc" placeholder="Краткое описание продукта">
                 </div>
             </div>
             <p><button onclick="addPlatform()">Добавить</button></p>
@@ -165,8 +170,9 @@
             <thead>
                 <tr>
                     <th></th>
-                    <th style="width:160px">Название</th>
-                    <th>Технологии(через запятую)</th>
+                    <th style="width:130px">Название</th>
+                    <th style="width:180px">Технологии</th>
+                    <th>Описание</th>
                     <th style="width:170px">Действия</th>
                 </tr>
             </thead>
@@ -175,14 +181,18 @@
 
         <div class="add-form">
             <h3>Добавить направление</h3>
-            <div class="grid grid--2">
+            <div class="grid grid--team">
                 <div>
                     <label>Название</label>
                     <input id="new-dir-name" placeholder="Backend">
                 </div>
                 <div>
-                    <label>Технологии (через запятую)</label>
+                    <label>Технологии(через запятую)</label>
                     <input id="new-dir-badges" placeholder="C#, SQL, Redis">
+                </div>
+                <div>
+                    <label>Описание(HTML)</label>
+                    <input id="new-dir-content" placeholder="Чем занимается направление">
                 </div>
             </div>
             <p><button onclick="addDirection()">Добавить</button></p>
