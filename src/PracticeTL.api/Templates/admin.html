@@ -8,7 +8,10 @@
         <link rel="icon" type="image/png" href="https://travelline.tech/favicon-96x96.png" sizes="96x96">
     </head>
     <body>
-        <h1>Админ-панель</h1>
+        <div class="topbar">
+            <h1>Админ-панель</h1>
+            <button class="logout" onclick="logout()">Выйти</button>
+        </div>
 
         <h2>Hero</h2>
 
@@ -105,7 +108,7 @@
                     <th></th>
                     <th style="width:70px">Год</th>
                     <th style="width:150px">Название</th>
-                    <th>Описание(HTML)</th>
+                    <th>Описание</th>
                     <th style="width:170px">Действия</th>
                 </tr>
             </thead>
@@ -124,7 +127,7 @@
                     <input id="new-pf-name" placeholder="Billing">
                 </div>
                 <div>
-                    <label>Описание</label>
+                    <label>Описание(HTML)</label>
                     <input id="new-pf-desc" placeholder="Краткое описание продукта">
                 </div>
             </div>

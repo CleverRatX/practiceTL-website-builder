@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PracticeTL.Api.Dtos;
 using PracticeTL.Api.Services;
 
 namespace PracticeTL.Api.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/hero")]
 public class HeroController : ControllerBase
@@ -15,7 +17,6 @@ public class HeroController : ControllerBase
         _service = service;
     }
 
-    // GET /api/hero  → весь блок: { title, subtitle, stats: [...] }
     [HttpGet]
     public async Task<IActionResult> Get()
     {
@@ -23,7 +24,6 @@ public class HeroController : ControllerBase
         return Ok(hero);
     }
 
-    // GET /api/hero => список всех элементов
     [HttpPut]
     public async Task<IActionResult> UpdateInfo([FromBody] HeroInfoInput input)
     {
@@ -31,7 +31,6 @@ public class HeroController : ControllerBase
         return NoContent();
     }
 
-    // POST /api/hero => создать элемент
     [HttpPost("stats")]
     public async Task<IActionResult> AddStat([FromBody] HeroStatInput input)
     {
@@ -46,7 +45,6 @@ public class HeroController : ControllerBase
         }
     }
 
-    // PUT /api/hero/5  => изменить элемент
     [HttpPut("stats/{id:int}")]
     public async Task<IActionResult> UpdateStat(int id, [FromBody] HeroStatInput input)
     {
@@ -62,7 +60,6 @@ public class HeroController : ControllerBase
         }
     }
 
-    // DELETE /api/hero/5 => удалить по id
     [HttpDelete("stats/{id:int}")]
     public async Task<IActionResult> DeleteStat(int id)
     {
@@ -71,7 +68,6 @@ public class HeroController : ControllerBase
         return NoContent();
     }
 
-    // POST /api/hero/reorder => новый порядок
     [HttpPost("stats/reorder")]
     public async Task<IActionResult> Reorder([FromBody] List<int> orderedIds)
     {

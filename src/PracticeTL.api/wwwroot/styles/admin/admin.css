@@ -7,7 +7,7 @@ body {
 }
 
 h1 {
-  font-size: 22px;
+  font-size: 22px; 
 }
 
 h2 {
@@ -154,4 +154,25 @@ code {
   height: 40px;
   object-fit: contain;
   background: #2b3a55;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.logout {
+  background: #eef1f6;
+  color: #2b3a67;
+  border: 1px solid #ccd3e0;
+  border-radius: 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.logout:hover {
+  background: #e2e7f0;
 }

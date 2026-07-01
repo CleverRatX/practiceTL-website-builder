@@ -1,5 +1,6 @@
 using System.Net;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PracticeTL.Api.Models;
 using PracticeTL.Api.Services;
@@ -32,6 +33,15 @@ public class HomeController : ControllerBase
         _directionService = directionService;
         _vacancyService = vacancyService;
         _env = env;
+    }
+
+    [Authorize]
+    [HttpGet("/admin.html")]
+    public async Task<IActionResult> Admin()
+    {
+        var path = Path.Combine(_env.ContentRootPath, "Templates", "admin.html");
+        var html = await System.IO.File.ReadAllTextAsync(path);
+        return Content(html, "text/html; charset=utf-8");
     }
 
     [HttpGet("/")]

@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PracticeTL.Api.Dtos;
 using PracticeTL.Api.Services;
 
 namespace PracticeTL.Api.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/brands")]
 public class BrandController : ControllerBase

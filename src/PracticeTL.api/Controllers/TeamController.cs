@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PracticeTL.Api.Dtos;
 using PracticeTL.Api.Services;
 
 namespace PracticeTL.Api.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/team")]
 public class TeamController : ControllerBase
@@ -15,7 +17,6 @@ public class TeamController : ControllerBase
         _service = service;
     }
 
-    // GET /api/team => список сотрудников
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
@@ -23,7 +24,6 @@ public class TeamController : ControllerBase
         return Ok(members);
     }
 
-    // POST /api/team => добавить
     [HttpPost]
     public async Task<IActionResult> Add([FromBody] TeamMemberInput input)
     {
@@ -38,7 +38,6 @@ public class TeamController : ControllerBase
         }
     }
 
-    // PUT /api/team/5 => изменить
     [HttpPut("{id:int}")]
     public async Task<IActionResult> Update(int id, [FromBody] TeamMemberInput input)
     {
@@ -54,7 +53,6 @@ public class TeamController : ControllerBase
         }
     }
 
-    // DELETE /api/team/5 => удалить
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete(int id)
     {
@@ -63,7 +61,6 @@ public class TeamController : ControllerBase
         return NoContent();
     }
 
-    // POST /api/team/reorder => новый порядок (тело: массив id)
     [HttpPost("reorder")]
     public async Task<IActionResult> Reorder([FromBody] List<int> orderedIds)
     {

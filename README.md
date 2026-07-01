@@ -18,8 +18,8 @@
 - [x] team
 - [x] platform
 - [x] brands
-- [ ] directions
-- [ ] vacancies
+- [x] directions
+- [x] vacancies
 - [ ] photogallery
 - [ ] offices
 - [ ] benefits
