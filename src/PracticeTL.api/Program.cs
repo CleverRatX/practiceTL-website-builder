@@ -7,6 +7,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
@@ -38,6 +41,9 @@ using (var scope = app.Services.CreateScope())
     DirectionSeeder.Seed(db);
     VacancySeeder.Seed(db);
 }
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseStaticFiles();
 

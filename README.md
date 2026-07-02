@@ -25,11 +25,6 @@
 - [ ] benefits
 - [ ] contact
 
-### Todo
-
-- [ ] Логин/пароль для админки
-- [ ] Docker
-
 ## Тесты
 ```
 dotnet test
