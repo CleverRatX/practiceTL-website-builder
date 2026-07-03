@@ -241,12 +241,10 @@ public class HomeController : ControllerBase
         foreach (var g in items)
         {
             sb.Append("<div class=\"gallery__item gallery__item--type-img\">");
-
-            if (g.Type == "img")
-                sb.Append($"<img src=\"{Enc(g.ImageUrl)}\" alt=\"\" class=\"card card--rounded\">");
+            if (g.Type == "video")
+                sb.Append($"<video src=\"{Enc(g.ImageUrl)}\" class=\"card card--rounded\" autoplay muted loop playsinline></video>");
             else
-                sb.Append($"<video src=\"{Enc(g.ImageUrl)}\" alt=\"\" class=\"card card--rounded\"></video>");
-
+                sb.Append($"<img src=\"{Enc(g.ImageUrl)}\" alt=\"\" class=\"card card--rounded\">");
             sb.Append($"<p class=\"gallery__item-text\">{Enc(g.Caption)}</p>");
             sb.Append("</div>");
         }

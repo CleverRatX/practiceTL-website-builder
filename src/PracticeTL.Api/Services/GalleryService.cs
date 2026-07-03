@@ -21,6 +21,7 @@ public class GalleryService : IGalleryService
 
         var item = new GalleryItem
         {
+            Type = string.IsNullOrWhiteSpace(input.Type) ? "img" : input.Type,
             ImageUrl = input.ImageUrl,
             Caption = input.Caption,
             SortOrder = maxOrder + 1
@@ -35,6 +36,7 @@ public class GalleryService : IGalleryService
         Validate(input);
         var item = await _db.GalleryItems.FindAsync(id);
         if (item is null) return null;
+        item.Type = string.IsNullOrWhiteSpace(input.Type) ? "img" : input.Type;
         item.ImageUrl = input.ImageUrl;
         item.Caption = input.Caption;
         await _db.SaveChangesAsync();

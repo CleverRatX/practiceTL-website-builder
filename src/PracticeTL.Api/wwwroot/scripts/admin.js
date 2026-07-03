@@ -556,12 +556,19 @@ function buildGalleryRow(g) {
     tr.dataset.id = g.id;
     tr.innerHTML = `
         <td class="drag-handle">≡</td>
+        <td>
+            <select class="f-type">
+                <option value="img">Изображение</option>
+                <option value="video">Видео</option>
+            </select>
+        </td>
         <td><input class="f-url" value="${escapeHtml(g.imageUrl)}"></td>
         <td><input class="f-caption" value="${escapeHtml(g.caption)}"></td>
         <td class="row-actions">
             <button class="save">Сохранить</button>
             <button class="danger del">Удалить</button>
         </td>`;
+    tr.querySelector('.f-type').value = g.type;
     tr.querySelector('.save').addEventListener('click', () => saveGallery(g.id, tr));
     tr.querySelector('.del').addEventListener('click', () => deleteGallery(g.id));
     attachDrag(tr, saveGalleryOrder);
@@ -579,6 +586,7 @@ async function saveGalleryOrder() {
 
 async function addGallery() {
     const body = {
+        type: document.getElementById('new-gal-type').value,
         imageUrl: document.getElementById('new-gal-url').value,
         caption: document.getElementById('new-gal-caption').value
     };
@@ -592,6 +600,7 @@ async function addGallery() {
 
 async function saveGallery(id, tr) {
     const body = {
+        type: tr.querySelector('.f-type').value,
         imageUrl: tr.querySelector('.f-url').value,
         caption: tr.querySelector('.f-caption').value
     };

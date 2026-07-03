@@ -11,8 +11,8 @@ using PracticeTL.Api.Data;
 namespace PracticeTL.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260702225023_AddGallery")]
-    partial class AddGallery
+    [Migration("20260703104518_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -94,6 +94,10 @@ namespace PracticeTL.Api.Migrations
 
                     b.Property<int>("SortOrder")
                         .HasColumnType("integer");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 

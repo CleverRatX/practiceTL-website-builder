@@ -245,7 +245,8 @@
             <thead>
                 <tr>
                     <th></th>
-                    <th>Ссылка на изображение</th>
+                    <th style="width:130px">Тип</th>
+                    <th>Ссылка на файл</th>
                     <th>Подпись</th>
                     <th style="width:170px">Действия</th>
                 </tr>
@@ -254,15 +255,22 @@
         </table>
 
         <div class="add-form">
-            <h3>Добавить фото</h3>
+            <h3>Добавить элемент</h3>
             <div class="grid grid--2">
                 <div>
-                    <label>Ссылка на изображение</label>
-                    <input id="new-gal-url" placeholder="/media/main/photogallery/...">
+                    <label>Тип</label>
+                    <select id="new-gal-type">
+                        <option value="img">Изображение</option>
+                        <option value="video">Видео</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Ссылка на файл</label>
+                    <input id="new-gal-url" placeholder="/media/main/photogallery/photo.png">
                 </div>
                 <div>
                     <label>Подпись</label>
-                    <input id="new-gal-caption" placeholder="описание фото">
+                    <input id="new-gal-caption" placeholder="описание">
                 </div>
             </div>
             <p><button onclick="addGallery()">Добавить</button></p>

@@ -20,7 +20,7 @@
 - [x] brands
 - [x] directions
 - [x] vacancies
-- [ ] photogallery
+- [x] photogallery
 - [ ] offices
 - [ ] benefits
 - [ ] contact
