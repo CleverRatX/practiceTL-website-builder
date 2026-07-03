@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Логин</title>
+        <link rel="stylesheet" href="./styles/login/login.css">
+        <link rel="icon" type="image/png" href="https://travelline.tech/favicon-96x96.png" sizes="96x96">
+    </head>
+    <body>
+        <div class="login-card">
+            <h1>Вход в админ-панель</h1>
+            <div class="error" id="error"></div>
+            <label>Логин</label>
+            <input id="username" autocomplete="username">
+            <label>Пароль</label>
+            <input id="password" type="password" autocomplete="current-password">
+            <button onclick="login()">Войти</button>
+        </div>
+
+        <script src="./scripts/login.js"></script>
+    </body>
+</html>

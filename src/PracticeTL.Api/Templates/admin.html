@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Админ-панель</title>
+        <link rel="stylesheet" href="./styles/admin/admin.css">
+        <link rel="icon" type="image/png" href="https://travelline.tech/favicon-96x96.png" sizes="96x96">
+    </head>
+    <body>
+        <div class="topbar">
+            <h1>Админ-панель</h1>
+            <button class="logout" onclick="logout()">Выйти</button>
+        </div>
+
+        <h2>Hero</h2>
+
+        <section class="card">
+            <h3>Шапка</h3>
+            <label>Заголовок</label>
+            <input id="hero-title">
+            <label>Подзаголовок</label>
+            <textarea id="hero-subtitle" rows="3"></textarea>
+            <p class="hint">Каждая строка подзаголовка - отдельная строка на странице</p>
+            <p><button onclick="saveInfo()">Сохранить шапку</button></p>
+        </section>
+
+        <h3>Статистика</h3>
+        <p class="hint">Порядок меняется перетаскиванием за значок "≡"</p>
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th style="width:100px">Тип</th>
+                    <th>Значение</th>
+                    <th>Подпись</th>
+                    <th style="width:170px">Действия</th>
+                </tr>
+            </thead>
+            <tbody id="hero-items"></tbody>
+        </table>
+
+        <div class="add-form">
+            <h3>Добавить элемент статистики</h3>
+            <div class="grid">
+                <div>
+                    <label>Тип</label>
+                    <select id="new-type">
+                        <option value="text">text</option>
+                        <option value="img">img</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Значение</label>
+                    <input id="new-value" placeholder="300+ или путь к картинке">
+                </div>
+                <div>
+                    <label>Подпись</label>
+                    <input id="new-label" placeholder="сотрудников в техотделе">
+                </div>
+            </div>
+            <p><button onclick="addStat()">Добавить</button></p>
+        </div>
+
+        <hr>
+
+        <h2>Команда</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th style="width:90px">Фото</th>
+                    <th>Имя</th>
+                    <th>Должность</th>
+                    <th style="width:170px">Действия</th>
+                </tr>
+            </thead>
+            <tbody id="team-items"></tbody>
+        </table>
+
+        <div class="add-form">
+            <h3>Добавить сотрудника</h3>
+            <div class="grid grid--team">
+                <div>
+                    <label>Имя</label>
+                    <input id="new-name" placeholder="Алексей Герасимов">
+                </div>
+                <div>
+                    <label>Должность</label>
+                    <input id="new-position" placeholder="разработчик">
+                </div>
+                <div>
+                    <label>Путь к фото</label>
+                    <input id="new-photo" placeholder="/media/main/team/...">
+                </div>
+            </div>
+            <p><button onclick="addMember()">Добавить</button></p>
+        </div>
+
+        <hr>
+
+        <h2>Платформа</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th style="width:70px">Год</th>
+                    <th style="width:150px">Название</th>
+                    <th>Описание</th>
+                    <th style="width:170px">Действия</th>
+                </tr>
+            </thead>
+            <tbody id="platform-items"></tbody>
+        </table>
+
+        <div class="add-form">
+            <h3>Добавить продукт</h3>
+            <div class="grid grid--team">
+                <div>
+                    <label>Год</label>
+                    <input id="new-pf-year" placeholder="2024">
+                </div>
+                <div>
+                    <label>Название</label>
+                    <input id="new-pf-name" placeholder="Billing">
+                </div>
+                <div>
+                    <label>Описание(HTML)</label>
+                    <input id="new-pf-desc" placeholder="Краткое описание продукта">
+                </div>
+            </div>
+            <p><button onclick="addPlatform()">Добавить</button></p>
+        </div>
+
+        <hr>
+
+        <h2>Бренды</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th style="width:90px">Логотип</th>
+                    <th>Название</th>
+                    <th style="width:170px">Действия</th>
+                </tr>
+            </thead>
+            <tbody id="brands-items"></tbody>
+        </table>
+
+        <div class="add-form">
+            <h3>Добавить бренд</h3>
+            <div class="grid grid--2">
+                <div>
+                    <label>Название</label>
+                    <input id="new-br-name" placeholder="Cosmos">
+                </div>
+                <div>
+                    <label>Путь к логотипу</label>
+                    <input id="new-br-logo" placeholder="/media/main/hotels/...">
+                </div>
+            </div>
+            <p><button onclick="addBrand()">Добавить</button></p>
+        </div>
+
+        <hr>
+
+        <h2>Направления</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th style="width:130px">Название</th>
+                    <th style="width:180px">Технологии</th>
+                    <th>Описание</th>
+                    <th style="width:170px">Действия</th>
+                </tr>
+            </thead>
+            <tbody id="directions-items"></tbody>
+        </table>
+
+        <div class="add-form">
+            <h3>Добавить направление</h3>
+            <div class="grid grid--team">
+                <div>
+                    <label>Название</label>
+                    <input id="new-dir-name" placeholder="Backend">
+                </div>
+                <div>
+                    <label>Технологии(через запятую)</label>
+                    <input id="new-dir-badges" placeholder="C#, SQL, Redis">
+                </div>
+                <div>
+                    <label>Описание(HTML)</label>
+                    <input id="new-dir-content" placeholder="Чем занимается направление">
+                </div>
+            </div>
+            <p><button onclick="addDirection()">Добавить</button></p>
+        </div>
+
+        <hr>
+
+        <h2>Вакансии</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Заголовок</th>
+                    <th style="width:130px">Формат/город</th>
+                    <th>Ссылка</th>
+                    <th style="width:170px">Действия</th>
+                </tr>
+            </thead>
+            <tbody id="vacancies-items"></tbody>
+        </table>
+
+        <div class="add-form">
+            <h3>Добавить вакансию</h3>
+            <div class="grid grid--team">
+                <div>
+                    <label>Заголовок</label>
+                    <input id="new-vac-title" placeholder="Python Developer">
+                </div>
+                <div>
+                    <label>Формат/город</label>
+                    <input id="new-vac-address" placeholder="удаленно">
+                </div>
+                <div>
+                    <label>Ссылка</label>
+                    <input id="new-vac-url" placeholder="https://hh.ru/vacancy/...">
+                </div>
+            </div>
+            <p><button onclick="addVacancy()">Добавить</button></p>
+        </div>
+
+        <hr>
+
+        <h2>Фотогалерея</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th style="width:130px">Тип</th>
+                    <th>Ссылка на файл</th>
+                    <th>Подпись</th>
+                    <th style="width:170px">Действия</th>
+                </tr>
+            </thead>
+            <tbody id="gallery-items"></tbody>
+        </table>
+
+        <div class="add-form">
+            <h3>Добавить элемент</h3>
+            <div class="grid grid--2">
+                <div>
+                    <label>Тип</label>
+                    <select id="new-gal-type">
+                        <option value="img">Изображение</option>
+                        <option value="video">Видео</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Ссылка на файл</label>
+                    <input id="new-gal-url" placeholder="/media/main/photogallery/photo.png">
+                </div>
+                <div>
+                    <label>Подпись</label>
+                    <input id="new-gal-caption" placeholder="описание">
+                </div>
+            </div>
+            <p><button onclick="addGallery()">Добавить</button></p>
+        </div>
+
+        <script src="./scripts/admin.js"></script>
+    </body>
+</html>
