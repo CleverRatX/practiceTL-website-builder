@@ -8,7 +8,7 @@ namespace PracticeTL.Tests;
 public class PlatformServiceTests
 {
     [Fact]
-    public async Task AddAsync_ДобавляетПродукт_СоСледующимПорядком()
+    public async Task AddAsync_AssignsNextSortOrder()
     {
         using var db = TestDb.Create();
         var service = new PlatformService(db);
@@ -22,7 +22,7 @@ public class PlatformServiceTests
     }
 
     [Fact]
-    public async Task AddAsync_ПустоеНазвание_БросаетОшибку()
+    public async Task AddAsync_EmptyName_Throws()
     {
         using var db = TestDb.Create();
         var service = new PlatformService(db);
@@ -32,7 +32,7 @@ public class PlatformServiceTests
     }
 
     [Fact]
-    public async Task AddAsync_ПустойГод_БросаетОшибку()
+    public async Task AddAsync_EmptyYear_Throws()
     {
         using var db = TestDb.Create();
         var service = new PlatformService(db);
@@ -42,7 +42,7 @@ public class PlatformServiceTests
     }
 
     [Fact]
-    public async Task UpdateAsync_МеняетГодНазваниеОписание_НоСохраняетЦветИИконку()
+    public async Task UpdateAsync_ChangesYearNameDescription_KeepsVariantAndIcon()
     {
         using var db = TestDb.Create();
         var item = new PlatformItem
@@ -66,7 +66,7 @@ public class PlatformServiceTests
     }
 
     [Fact]
-    public async Task DeleteAsync_УдаляетПродукт()
+    public async Task DeleteAsync_RemovesItem()
     {
         using var db = TestDb.Create();
         var service = new PlatformService(db);
@@ -77,7 +77,7 @@ public class PlatformServiceTests
     }
 
     [Fact]
-    public async Task ReorderAsync_ПереставляетПорядок()
+    public async Task ReorderAsync_ChangesOrder()
     {
         using var db = TestDb.Create();
         var service = new PlatformService(db);

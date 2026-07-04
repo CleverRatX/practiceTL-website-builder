@@ -7,7 +7,7 @@ namespace PracticeTL.Tests;
 public class VacancyServiceTests
 {
     [Fact]
-    public async Task AddAsync_ДобавляетВакансию_СоСледующимПорядком()
+    public async Task AddAsync_AssignsNextSortOrder()
     {
         using var db = TestDb.Create();
         var service = new VacancyService(db);
@@ -22,7 +22,7 @@ public class VacancyServiceTests
     }
 
     [Fact]
-    public async Task AddAsync_ПустойЗаголовок_БросаетОшибку()
+    public async Task AddAsync_EmptyTitle_Throws()
     {
         using var db = TestDb.Create();
         var service = new VacancyService(db);
@@ -32,7 +32,7 @@ public class VacancyServiceTests
     }
 
     [Fact]
-    public async Task UpdateAsync_МеняетПоля()
+    public async Task UpdateAsync_ChangesFields()
     {
         using var db = TestDb.Create();
         var service = new VacancyService(db);
@@ -47,7 +47,7 @@ public class VacancyServiceTests
     }
 
     [Fact]
-    public async Task UpdateAsync_НесуществующийId_ВозвращаетNull()
+    public async Task UpdateAsync_MissingId_ReturnsNull()
     {
         using var db = TestDb.Create();
         var service = new VacancyService(db);
@@ -56,7 +56,7 @@ public class VacancyServiceTests
     }
 
     [Fact]
-    public async Task DeleteAsync_УдаляетВакансию()
+    public async Task DeleteAsync_RemovesVacancy()
     {
         using var db = TestDb.Create();
         var service = new VacancyService(db);
@@ -67,7 +67,7 @@ public class VacancyServiceTests
     }
 
     [Fact]
-    public async Task DeleteAsync_НесуществующийId_ВозвращаетFalse()
+    public async Task DeleteAsync_MissingId_ReturnsFalse()
     {
         using var db = TestDb.Create();
         var service = new VacancyService(db);
@@ -76,7 +76,7 @@ public class VacancyServiceTests
     }
 
     [Fact]
-    public async Task ReorderAsync_ПереставляетПорядок()
+    public async Task ReorderAsync_ChangesOrder()
     {
         using var db = TestDb.Create();
         var service = new VacancyService(db);

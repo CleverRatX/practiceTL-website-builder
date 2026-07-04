@@ -7,7 +7,7 @@ namespace PracticeTL.Tests;
 public class BrandServiceTests
 {
     [Fact]
-    public async Task AddAsync_ДобавляетБренд_СоСледующимПорядком()
+    public async Task AddAsync_AssignsNextSortOrder()
     {
         using var db = TestDb.Create();
         var service = new BrandService(db);
@@ -21,7 +21,7 @@ public class BrandServiceTests
     }
 
     [Fact]
-    public async Task AddAsync_ПустойЛоготип_БросаетОшибку()
+    public async Task AddAsync_EmptyLogo_Throws()
     {
         using var db = TestDb.Create();
         var service = new BrandService(db);
@@ -31,7 +31,7 @@ public class BrandServiceTests
     }
 
     [Fact]
-    public async Task UpdateAsync_МеняетПоля()
+    public async Task UpdateAsync_ChangesFields()
     {
         using var db = TestDb.Create();
         var service = new BrandService(db);
@@ -45,7 +45,7 @@ public class BrandServiceTests
     }
 
     [Fact]
-    public async Task UpdateAsync_НесуществующийId_ВозвращаетNull()
+    public async Task UpdateAsync_MissingId_ReturnsNull()
     {
         using var db = TestDb.Create();
         var service = new BrandService(db);
@@ -54,7 +54,7 @@ public class BrandServiceTests
     }
 
     [Fact]
-    public async Task DeleteAsync_УдаляетБренд()
+    public async Task DeleteAsync_RemovesBrand()
     {
         using var db = TestDb.Create();
         var service = new BrandService(db);
@@ -65,7 +65,7 @@ public class BrandServiceTests
     }
 
     [Fact]
-    public async Task ReorderAsync_ПереставляетПорядок()
+    public async Task ReorderAsync_ChangesOrder()
     {
         using var db = TestDb.Create();
         var service = new BrandService(db);

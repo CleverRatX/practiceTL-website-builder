@@ -7,7 +7,7 @@ namespace PracticeTL.Tests;
 public class DirectionServiceTests
 {
     [Fact]
-    public async Task AddAsync_ДобавляетНаправление_СоСледующимПорядкомИОписанием()
+    public async Task AddAsync_AddsDirection_WithSortOrderAndContent()
     {
         using var db = TestDb.Create();
         var service = new DirectionService(db);
@@ -22,7 +22,7 @@ public class DirectionServiceTests
     }
 
     [Fact]
-    public async Task AddAsync_ПустоеНазвание_БросаетОшибку()
+    public async Task AddAsync_EmptyName_Throws()
     {
         using var db = TestDb.Create();
         var service = new DirectionService(db);
@@ -32,7 +32,7 @@ public class DirectionServiceTests
     }
 
     [Fact]
-    public async Task UpdateAsync_МеняетНазваниеТехнологииОписание()
+    public async Task UpdateAsync_ChangesNameBadgesContent()
     {
         using var db = TestDb.Create();
         var service = new DirectionService(db);
@@ -47,7 +47,7 @@ public class DirectionServiceTests
     }
 
     [Fact]
-    public async Task UpdateAsync_НесуществующийId_ВозвращаетNull()
+    public async Task UpdateAsync_MissingId_ReturnsNull()
     {
         using var db = TestDb.Create();
         var service = new DirectionService(db);
@@ -56,7 +56,7 @@ public class DirectionServiceTests
     }
 
     [Fact]
-    public async Task DeleteAsync_УдаляетНаправление()
+    public async Task DeleteAsync_RemovesDirection()
     {
         using var db = TestDb.Create();
         var service = new DirectionService(db);
@@ -67,7 +67,7 @@ public class DirectionServiceTests
     }
 
     [Fact]
-    public async Task DeleteAsync_НесуществующийId_ВозвращаетFalse()
+    public async Task DeleteAsync_MissingId_ReturnsFalse()
     {
         using var db = TestDb.Create();
         var service = new DirectionService(db);
@@ -76,7 +76,7 @@ public class DirectionServiceTests
     }
 
     [Fact]
-    public async Task ReorderAsync_ПереставляетПорядок()
+    public async Task ReorderAsync_ChangesOrder()
     {
         using var db = TestDb.Create();
         var service = new DirectionService(db);

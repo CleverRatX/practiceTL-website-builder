@@ -7,7 +7,7 @@ namespace PracticeTL.Tests;
 public class HeroServiceTests
 {
     [Fact]
-    public async Task UpdateInfoAsync_МеняетЗаголовокИПодзаголовок()
+    public async Task UpdateInfoAsync_ChangesTitleAndSubtitle()
     {
         using var db = TestDb.Create();
         await TestDb.SeedHeroAsync(db);
@@ -21,7 +21,7 @@ public class HeroServiceTests
     }
 
     [Fact]
-    public async Task AddStatAsync_ДобавляетЭлемент_СоСледующимПорядком()
+    public async Task AddStatAsync_AssignsNextSortOrder()
     {
         using var db = TestDb.Create();
         await TestDb.SeedHeroAsync(db);
@@ -37,7 +37,7 @@ public class HeroServiceTests
     }
 
     [Fact]
-    public async Task AddStatAsync_ПустоеЗначение_БросаетОшибку()
+    public async Task AddStatAsync_EmptyValue_Throws()
     {
         using var db = TestDb.Create();
         await TestDb.SeedHeroAsync(db);
@@ -48,7 +48,7 @@ public class HeroServiceTests
     }
 
     [Fact]
-    public async Task AddStatAsync_НеверныйТип_БросаетОшибку()
+    public async Task AddStatAsync_InvalidType_Throws()
     {
         using var db = TestDb.Create();
         await TestDb.SeedHeroAsync(db);
@@ -59,7 +59,7 @@ public class HeroServiceTests
     }
 
     [Fact]
-    public async Task UpdateStatAsync_МеняетПоля()
+    public async Task UpdateStatAsync_ChangesFields()
     {
         using var db = TestDb.Create();
         await TestDb.SeedHeroAsync(db);
@@ -75,7 +75,7 @@ public class HeroServiceTests
     }
 
     [Fact]
-    public async Task UpdateStatAsync_НесуществующийId_ВозвращаетNull()
+    public async Task UpdateStatAsync_MissingId_ReturnsNull()
     {
         using var db = TestDb.Create();
         await TestDb.SeedHeroAsync(db);
@@ -87,7 +87,7 @@ public class HeroServiceTests
     }
 
     [Fact]
-    public async Task DeleteStatAsync_УдаляетЭлемент()
+    public async Task DeleteStatAsync_RemovesStat()
     {
         using var db = TestDb.Create();
         await TestDb.SeedHeroAsync(db);
@@ -101,7 +101,7 @@ public class HeroServiceTests
     }
 
     [Fact]
-    public async Task DeleteStatAsync_НесуществующийId_ВозвращаетFalse()
+    public async Task DeleteStatAsync_MissingId_ReturnsFalse()
     {
         using var db = TestDb.Create();
         await TestDb.SeedHeroAsync(db);
@@ -111,7 +111,7 @@ public class HeroServiceTests
     }
 
     [Fact]
-    public async Task ReorderStatsAsync_ПереставляетПорядокПоСпискуId()
+    public async Task ReorderStatsAsync_ChangesOrderByIdList()
     {
         using var db = TestDb.Create();
         await TestDb.SeedHeroAsync(db);

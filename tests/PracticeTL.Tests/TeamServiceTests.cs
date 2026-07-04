@@ -7,7 +7,7 @@ namespace PracticeTL.Tests;
 public class TeamServiceTests
 {
     [Fact]
-    public async Task AddAsync_ДобавляетСотрудника_СоСледующимПорядком()
+    public async Task AddAsync_AssignsNextSortOrder()
     {
         using var db = TestDb.Create();
         var service = new TeamService(db);
@@ -22,7 +22,7 @@ public class TeamServiceTests
     }
 
     [Fact]
-    public async Task AddAsync_ПустоеИмя_БросаетОшибку()
+    public async Task AddAsync_EmptyName_Throws()
     {
         using var db = TestDb.Create();
         var service = new TeamService(db);
@@ -32,7 +32,7 @@ public class TeamServiceTests
     }
 
     [Fact]
-    public async Task UpdateAsync_МеняетПоля()
+    public async Task UpdateAsync_ChangesFields()
     {
         using var db = TestDb.Create();
         var service = new TeamService(db);
@@ -47,7 +47,7 @@ public class TeamServiceTests
     }
 
     [Fact]
-    public async Task UpdateAsync_НесуществующийId_ВозвращаетNull()
+    public async Task UpdateAsync_MissingId_ReturnsNull()
     {
         using var db = TestDb.Create();
         var service = new TeamService(db);
@@ -56,7 +56,7 @@ public class TeamServiceTests
     }
 
     [Fact]
-    public async Task DeleteAsync_УдаляетСотрудника()
+    public async Task DeleteAsync_RemovesMember()
     {
         using var db = TestDb.Create();
         var service = new TeamService(db);
@@ -67,7 +67,7 @@ public class TeamServiceTests
     }
 
     [Fact]
-    public async Task DeleteAsync_НесуществующийId_ВозвращаетFalse()
+    public async Task DeleteAsync_MissingId_ReturnsFalse()
     {
         using var db = TestDb.Create();
         var service = new TeamService(db);
@@ -76,7 +76,7 @@ public class TeamServiceTests
     }
 
     [Fact]
-    public async Task ReorderAsync_ПереставляетПорядок()
+    public async Task ReorderAsync_ChangesOrder()
     {
         using var db = TestDb.Create();
         var service = new TeamService(db);
