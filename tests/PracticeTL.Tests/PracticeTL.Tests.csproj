@@ -18,7 +18,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <ProjectReference Include="..\..\src\PracticeTL.Api\PracticeTL.Api.csproj" />
   </ItemGroup>
-  
+
 </Project>

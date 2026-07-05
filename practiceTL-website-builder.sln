@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{EB60BBB3-C49
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{961F4D1B-4409-49A5-A626-8F1FD991CE42}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PracticeTL.Tests", "tests\PracticeTL.Tests\PracticeTL.Tests.csproj", "{EAADB425-2B2E-44F8-A89A-7670AC6D7BFF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PracticeTL.Tests", "tests\PracticeTL.Tests\PracticeTL.Tests.csproj", "{63873A23-9107-4FFF-A677-DE3E897BDAFD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,12 +18,12 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EAADB425-2B2E-44F8-A89A-7670AC6D7BFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EAADB425-2B2E-44F8-A89A-7670AC6D7BFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EAADB425-2B2E-44F8-A89A-7670AC6D7BFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EAADB425-2B2E-44F8-A89A-7670AC6D7BFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63873A23-9107-4FFF-A677-DE3E897BDAFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63873A23-9107-4FFF-A677-DE3E897BDAFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63873A23-9107-4FFF-A677-DE3E897BDAFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63873A23-9107-4FFF-A677-DE3E897BDAFD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{EAADB425-2B2E-44F8-A89A-7670AC6D7BFF} = {961F4D1B-4409-49A5-A626-8F1FD991CE42}
+		{63873A23-9107-4FFF-A677-DE3E897BDAFD} = {961F4D1B-4409-49A5-A626-8F1FD991CE42}
 	EndGlobalSection
 EndGlobal

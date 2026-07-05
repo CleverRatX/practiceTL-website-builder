@@ -538,6 +538,18 @@ async function deleteVacancy(id) {
     await loadVacancies();
 }
 
+async function uploadFile(fileInput, targetInput) {
+    const file = fileInput.files[0];
+    if (!file) { alert('Сначала выберите файл'); return; }
+    const form = new FormData();
+    form.append('file', file);
+    const res = await fetch('/api/upload', { method: 'POST', body: form });
+    if (!res.ok) { alert('Ошибка загрузки: ' + (await res.text())); return; }
+    const data = await res.json();
+    targetInput.value = data.url;
+    fileInput.value = '';
+}
+
 const GALLERY_API = '/api/gallery';
 const galleryTbody = document.getElementById('gallery-items');
 enableDropZone(galleryTbody);
@@ -562,13 +574,20 @@ function buildGalleryRow(g) {
                 <option value="video">Видео</option>
             </select>
         </td>
-        <td><input class="f-url" value="${escapeHtml(g.imageUrl)}"></td>
+        <td>
+            <input class="f-url" value="${escapeHtml(g.imageUrl)}">
+            <div class="upload-row">
+                <input type="file" class="f-file" accept="image/*,video/*">
+                <button type="button" class="upload">Загрузить</button>
+            </div>
+        </td>
         <td><input class="f-caption" value="${escapeHtml(g.caption)}"></td>
         <td class="row-actions">
             <button class="save">Сохранить</button>
             <button class="danger del">Удалить</button>
         </td>`;
     tr.querySelector('.f-type').value = g.type;
+    tr.querySelector('.upload').addEventListener('click', () => uploadFile(tr.querySelector('.f-file'), tr.querySelector('.f-url')));
     tr.querySelector('.save').addEventListener('click', () => saveGallery(g.id, tr));
     tr.querySelector('.del').addEventListener('click', () => deleteGallery(g.id));
     attachDrag(tr, saveGalleryOrder);

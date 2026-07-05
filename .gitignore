@@ -1,11 +1,17 @@
+# .NET
 bin/
 obj/
 
+# Файлы IDE
 vs/
-user/
+*.user
 
-temp/
-tmp/
-
+# Локальные секреты
 .env
 appsettings.Development.json
+
+# Времаенные файлы
+temp/
+
+# Картинки, загруженные через админ-панель
+src/PracticeTL.Api/wwwroot/media/uploads/

@@ -267,6 +267,10 @@
                 <div>
                     <label>Ссылка на файл</label>
                     <input id="new-gal-url" placeholder="/media/main/photogallery/photo.png">
+                    <div class="upload-row">
+                        <input type="file" id="new-gal-file" accept="image/*,video/*">
+                        <button type="button" onclick="uploadFile(document.getElementById('new-gal-file'), document.getElementById('new-gal-url'))">Загрузить файл</button>
+                    </div>
                 </div>
                 <div>
                     <label>Подпись</label>
