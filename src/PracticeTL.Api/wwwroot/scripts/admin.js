@@ -642,6 +642,98 @@ async function logout() {
     window.location.href = '/login.html';
 }
 
+function showTab(name) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('tab--active'));
+    document.getElementById('tab-' + name).classList.add('tab--active');
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('tab-btn--active', b.dataset.tab === name));
+    if (name === 'media') loadMedia(mediaPath);
+}
+
+const MEDIA_API = '/api/media';
+let mediaPath = '';
+
+async function loadMedia(path) {
+    mediaPath = path;
+    const res = await fetch(MEDIA_API + '/list?path=' + encodeURIComponent(path));
+    if (!res.ok) { alert('Не удалось открыть папку'); return; }
+    const data = await res.json();
+    renderBreadcrumb(data.path);
+
+    const list = document.getElementById('media-list');
+    list.innerHTML = '';
+
+    for (const folder of data.folders) {
+        const div = document.createElement('div');
+        div.className = 'media-item media-folder';
+        div.innerHTML = `<div class="media-icon">📁</div><div class="media-name">${escapeHtml(folder)}</div>`;
+        div.addEventListener('click', () => loadMedia(joinPath(path, folder)));
+        list.appendChild(div);
+    }
+
+    for (const file of data.files) {
+        const div = document.createElement('div');
+        div.className = 'media-item';
+        const preview = file.isImage
+            ? `<img src="${escapeHtml(file.url)}" alt="">`
+            : `<div class="media-icon">📄</div>`;
+        div.innerHTML = `${preview}<div class="media-name">${escapeHtml(file.name)}</div>`;
+        const del = document.createElement('button');
+        del.className = 'danger';
+        del.textContent = 'Удалить';
+        del.addEventListener('click', () => deleteMedia(joinPath(path, file.name)));
+        div.appendChild(del);
+        list.appendChild(div);
+    }
+
+    if (data.folders.length === 0 && data.files.length === 0) {
+        list.innerHTML = '<p class="hint">Папка пуста.</p>';
+    }
+}
+
+function joinPath(base, name) {
+    return base ? base + '/' + name : name;
+}
+
+function renderBreadcrumb(path) {
+    const bc = document.getElementById('media-breadcrumb');
+    bc.innerHTML = '';
+    const root = document.createElement('a');
+    root.textContent = 'media';
+    root.addEventListener('click', () => loadMedia(''));
+    bc.appendChild(root);
+
+    let acc = '';
+    for (const part of (path ? path.split('/') : [])) {
+        acc = acc ? acc + '/' + part : part;
+        bc.appendChild(document.createTextNode(' / '));
+        const a = document.createElement('a');
+        a.textContent = part;
+        const target = acc;
+        a.addEventListener('click', () => loadMedia(target));
+        bc.appendChild(a);
+    }
+}
+
+async function uploadMedia() {
+    const input = document.getElementById('media-file');
+    const file = input.files[0];
+    if (!file) { alert('Сначала выберите файл'); return; }
+    const form = new FormData();
+    form.append('file', file);
+    form.append('path', mediaPath);
+    const res = await fetch(MEDIA_API + '/upload', { method: 'POST', body: form });
+    if (!res.ok) { alert('Ошибка загрузки: ' + (await res.text())); return; }
+    input.value = '';
+    await loadMedia(mediaPath);
+}
+
+async function deleteMedia(relPath) {
+    if (!confirm('Удалить файл ' + relPath + '?')) return;
+    const res = await fetch(MEDIA_API + '?path=' + encodeURIComponent(relPath), { method: 'DELETE' });
+    if (!res.ok) { alert('Ошибка: ' + (await res.text())); return; }
+    await loadMedia(mediaPath);
+}
+
 loadHero();
 loadTeam();
 loadPlatform();
