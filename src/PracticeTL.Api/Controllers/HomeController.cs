@@ -16,6 +16,7 @@ public class HomeController : ControllerBase
     private readonly IDirectionService _directionService;
     private readonly IVacancyService _vacancyService;
     private readonly IGalleryService _galleryService;
+    private readonly IBlockSettingService _blockService;
     private readonly IWebHostEnvironment _env;
 
     public HomeController(
@@ -26,6 +27,7 @@ public class HomeController : ControllerBase
         IDirectionService directionService,
         IVacancyService vacancyService,
         IGalleryService galleryService,
+        IBlockSettingService blockService,
         IWebHostEnvironment env)
     {
         _heroService = heroService;
@@ -35,6 +37,7 @@ public class HomeController : ControllerBase
         _directionService = directionService;
         _vacancyService = vacancyService;
         _galleryService = galleryService;
+        _blockService = blockService;
         _env = env;
     }
 
@@ -73,6 +76,22 @@ public class HomeController : ControllerBase
             .Replace("<!--DIRECTIONS_ITEMS-->", BuildDirections(directions))
             .Replace("<!--VACANCIES_ITEMS-->", BuildVacancies(vacancies))
             .Replace("<!--GALLERY_ITEMS-->", BuildGallery(gallery));
+
+        var blocks = await _blockService.GetAllAsync();
+        foreach (var b in blocks)
+        {
+            var open = $"<!--BLOCK:{b.Key}-->";
+            var close = $"<!--/BLOCK:{b.Key}-->";
+            var i = html.IndexOf(open, StringComparison.Ordinal);
+            if (i < 0) continue;
+            var j = html.IndexOf(close, i, StringComparison.Ordinal);
+            if (j < 0) continue;
+
+            if (b.Visible)
+                html = html.Remove(j, close.Length).Remove(i, open.Length);
+            else
+                html = html.Remove(i, (j + close.Length) - i);
+        }
 
         return Content(html, "text/html; charset=utf-8");
     }

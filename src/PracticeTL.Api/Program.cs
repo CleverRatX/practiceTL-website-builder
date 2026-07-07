@@ -28,6 +28,7 @@ builder.Services.AddScoped<IBrandService, BrandService>();
 builder.Services.AddScoped<IDirectionService, DirectionService>();
 builder.Services.AddScoped<IVacancyService, VacancyService>();
 builder.Services.AddScoped<IGalleryService, GalleryService>();
+builder.Services.AddScoped<IBlockSettingService, BlockSettingService>();
 
 var app = builder.Build();
 
@@ -42,6 +43,7 @@ using (var scope = app.Services.CreateScope())
     DirectionSeeder.Seed(db);
     VacancySeeder.Seed(db);
     GallerySeeder.Seed(db);
+    BlockSettingSeeder.Seed(db);
 }
 
 app.UseSwagger();

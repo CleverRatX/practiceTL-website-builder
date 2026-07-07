@@ -17,4 +17,5 @@ public class AppDbContext : DbContext
     public DbSet<Direction> Directions => Set<Direction>();
     public DbSet<Vacancy> Vacancies => Set<Vacancy>();
     public DbSet<GalleryItem> GalleryItems => Set<GalleryItem>();
+    public DbSet<BlockSetting> BlockSettings => Set<BlockSetting>();
 }

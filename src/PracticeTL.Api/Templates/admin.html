@@ -34,6 +34,7 @@
                             <label>Подзаголовок</label>
                             <textarea id="hero-subtitle" rows="3"></textarea>
                             <p class="hint">Каждая строка подзаголовка - отдельная строка на странице</p>
+                            <p><button onclick="saveInfo()">Сохранить шапку</button></p>
                         </section>
 
                         <h3>Статистика</h3>
@@ -76,8 +77,6 @@
                             </div>
                             <p><button onclick="addStat()">Добавить</button></p>
                         </div>
-
-                        <p><button onclick="saveHeroBlock()">Сохранить блок</button></p>
                     </div>
                 </div>
             </div>
@@ -125,8 +124,6 @@
                             </div>
                             <p><button onclick="addMember()">Добавить</button></p>
                         </div>
-
-                        <p><button onclick="saveTeamBlock()">Сохранить блок</button></p>
                     </div>
                 </div>
             </div>
@@ -170,8 +167,6 @@
                             </div>
                             <p><button onclick="addPlatform()">Добавить</button></p>
                         </div>
-
-                        <p><button onclick="savePlatformBlock()">Сохранить блок</button></p>
                     </div>
                 </div>
             </div>
@@ -214,8 +209,6 @@
                             </div>
                             <p><button onclick="addBrand()">Добавить</button></p>
                         </div>
-
-                        <p><button onclick="saveBrandsBlock()">Сохранить блок</button></p>
                     </div>
                 </div>
             </div>
@@ -259,8 +252,6 @@
                             </div>
                             <p><button onclick="addDirection()">Добавить</button></p>
                         </div>
-
-                        <p><button onclick="saveDirectionsBlock()">Сохранить блок</button></p>
                     </div>
                 </div>
             </div>
@@ -304,8 +295,6 @@
                             </div>
                             <p><button onclick="addVacancy()">Добавить</button></p>
                         </div>
-
-                        <p><button onclick="saveVacanciesBlock()">Сохранить блок</button></p>
                     </div>
                 </div>
             </div>
@@ -356,14 +345,15 @@
                             </div>
                             <p><button onclick="addGallery()">Добавить</button></p>
                         </div>
-
-                        <p><button onclick="saveGalleryBlock()">Сохранить блок</button></p>
                     </div>
                 </div>
             </div>
         </div>
 
         <div id="tab-visibility" class="tab">
+            <h2>Видимость блоков</h2>
+            <p class="hint">Выключенные блоки не показываются на странице.</p>
+            <div id="visibility-list"></div>
         </div>
 
         <div id="tab-media" class="tab">
