@@ -46,6 +46,10 @@ function escapeHtml(str) {
         .replaceAll('>', '&gt;');
 }
 
+function toggleAcc(head) {
+    head.parentElement.classList.toggle('open');
+}
+
 const HERO_API = '/api/hero';
 const heroTbody = document.getElementById('hero-items');
 enableDropZone(heroTbody);
@@ -63,18 +67,33 @@ async function loadHero() {
     }
 }
 
-async function saveInfo() {
-    const body = {
+async function saveHeroBlock() {
+    const info = {
         title: document.getElementById('hero-title').value,
         subtitle: document.getElementById('hero-subtitle').value
     };
-    const res = await fetch(HERO_API, {
+    let res = await fetch(HERO_API, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
+        body: JSON.stringify(info)
     });
     if (!res.ok) { alert('Ошибка при сохранении шапки'); return; }
-    alert('Шапка сохранена');
+
+    for (const tr of heroTbody.querySelectorAll('tr')) {
+        const body = {
+            type: tr.querySelector('.f-type').value,
+            value: tr.querySelector('.f-value').value,
+            label: tr.querySelector('.f-label').value
+        };
+        res = await fetch(HERO_API + '/stats/' + tr.dataset.id, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        });
+        if (!res.ok) { alert('Ошибка: ' + (await res.text())); return; }
+    }
+    await loadHero();
+    alert('Блок сохранён');
 }
 
 function buildStatRow(stat) {
@@ -88,15 +107,21 @@ function buildStatRow(stat) {
                 <option value="img" ${stat.type === 'img' ? 'selected' : ''}>img</option>
             </select>
         </td>
-        <td><input class="f-value" value="${escapeHtml(stat.value)}"></td>
+        <td>
+            <input class="f-value" value="${escapeHtml(stat.value)}">
+            <div class="upload-row">
+                <input type="file" class="f-file" accept="image/*">
+                <button type="button" class="upload">Загрузить</button>
+            </div>
+        </td>
         <td><input class="f-label" value="${escapeHtml(stat.label)}"></td>
         <td class="row-actions">
             <button class="save">Сохранить</button>
             <button class="danger del">Удалить</button>
         </td>`;
 
-    tr.querySelector('.save').addEventListener('click', () => saveStat(stat.id, tr));
     tr.querySelector('.del').addEventListener('click', () => deleteStat(stat.id));
+    tr.querySelector('.upload').addEventListener('click', () => uploadFile(tr.querySelector('.f-file'), tr.querySelector('.f-value')));
     attachDrag(tr, saveStatsOrder);
     return tr;
 }
@@ -129,21 +154,6 @@ async function addStat() {
     await loadHero();
 }
 
-async function saveStat(id, tr) {
-    const body = {
-        type: tr.querySelector('.f-type').value,
-        value: tr.querySelector('.f-value').value,
-        label: tr.querySelector('.f-label').value
-    };
-    const res = await fetch(HERO_API + '/stats/' + id, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-    });
-    if (!res.ok) { alert('Ошибка: ' + (await res.text())); return; }
-    await loadHero();
-}
-
 async function deleteStat(id) {
     if (!confirm('Удалить элемент #' + id + '?')) return;
     const res = await fetch(HERO_API + '/stats/' + id, { method: 'DELETE' });
@@ -172,6 +182,10 @@ function buildMemberRow(m) {
         <td>
             <img class="photo-preview" src="${escapeHtml(m.photo)}" alt="">
             <input class="f-photo" value="${escapeHtml(m.photo)}" placeholder="/media/main/team/...">
+            <div class="upload-row">
+                <input type="file" class="f-file" accept="image/*">
+                <button type="button" class="upload">Загрузить</button>
+            </div>
         </td>
         <td><input class="f-name" value="${escapeHtml(m.name)}"></td>
         <td><input class="f-position" value="${escapeHtml(m.position)}"></td>
@@ -184,8 +198,8 @@ function buildMemberRow(m) {
     const preview = tr.querySelector('.photo-preview');
     photoInput.addEventListener('input', () => { preview.src = photoInput.value; });
 
-    tr.querySelector('.save').addEventListener('click', () => saveMember(m.id, tr));
     tr.querySelector('.del').addEventListener('click', () => deleteMember(m.id));
+    tr.querySelector('.upload').addEventListener('click', () => uploadFile(tr.querySelector('.f-file'), photoInput));
     attachDrag(tr, saveTeamOrder);
     return tr;
 }
@@ -217,19 +231,22 @@ async function addMember() {
     await loadTeam();
 }
 
-async function saveMember(id, tr) {
-    const body = {
-        name: tr.querySelector('.f-name').value,
-        position: tr.querySelector('.f-position').value,
-        photo: tr.querySelector('.f-photo').value
-    };
-    const res = await fetch(TEAM_API + '/' + id, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-    });
-    if (!res.ok) { alert('Ошибка: ' + (await res.text())); return; }
+async function saveTeamBlock() {
+    for (const tr of teamTbody.querySelectorAll('tr')) {
+        const body = {
+            name: tr.querySelector('.f-name').value,
+            position: tr.querySelector('.f-position').value,
+            photo: tr.querySelector('.f-photo').value
+        };
+        const res = await fetch(TEAM_API + '/' + tr.dataset.id, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        });
+        if (!res.ok) { alert('Ошибка: ' + (await res.text())); return; }
+    }
     await loadTeam();
+    alert('Блок сохранён');
 }
 
 async function deleteMember(id) {
@@ -264,7 +281,6 @@ function buildPlatformRow(it) {
             <button class="save">Сохранить</button>
             <button class="danger del">Удалить</button>
         </td>`;
-    tr.querySelector('.save').addEventListener('click', () => savePlatform(it.id, tr));
     tr.querySelector('.del').addEventListener('click', () => deletePlatform(it.id));
     attachDrag(tr, savePlatformOrder);
     return tr;
@@ -293,17 +309,20 @@ async function addPlatform() {
     await loadPlatform();
 }
 
-async function savePlatform(id, tr) {
-    const body = {
-        year: tr.querySelector('.f-year').value,
-        name: tr.querySelector('.f-name').value,
-        description: tr.querySelector('.f-desc').value
-    };
-    const res = await fetch(PLATFORM_API + '/' + id, {
-        method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
-    });
-    if (!res.ok) { alert('Ошибка: ' + (await res.text())); return; }
+async function savePlatformBlock() {
+    for (const tr of platformTbody.querySelectorAll('tr')) {
+        const body = {
+            year: tr.querySelector('.f-year').value,
+            name: tr.querySelector('.f-name').value,
+            description: tr.querySelector('.f-desc').value
+        };
+        const res = await fetch(PLATFORM_API + '/' + tr.dataset.id, {
+            method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
+        });
+        if (!res.ok) { alert('Ошибка: ' + (await res.text())); return; }
+    }
     await loadPlatform();
+    alert('Блок сохранён');
 }
 
 async function deletePlatform(id) {
@@ -334,6 +353,10 @@ function buildBrandRow(b) {
         <td>
             <img class="photo-preview photo-preview--logo" src="${escapeHtml(b.logo)}" alt="">
             <input class="f-logo" value="${escapeHtml(b.logo)}" placeholder="/media/main/hotels/...">
+            <div class="upload-row">
+                <input type="file" class="f-file" accept="image/*">
+                <button type="button" class="upload">Загрузить</button>
+            </div>
         </td>
         <td><input class="f-name" value="${escapeHtml(b.name)}"></td>
         <td class="row-actions">
@@ -343,8 +366,8 @@ function buildBrandRow(b) {
     const logoInput = tr.querySelector('.f-logo');
     const preview = tr.querySelector('.photo-preview');
     logoInput.addEventListener('input', () => { preview.src = logoInput.value; });
-    tr.querySelector('.save').addEventListener('click', () => saveBrand(b.id, tr));
     tr.querySelector('.del').addEventListener('click', () => deleteBrand(b.id));
+    tr.querySelector('.upload').addEventListener('click', () => uploadFile(tr.querySelector('.f-file'), logoInput));
     attachDrag(tr, saveBrandsOrder);
     return tr;
 }
@@ -371,16 +394,19 @@ async function addBrand() {
     await loadBrands();
 }
 
-async function saveBrand(id, tr) {
-    const body = {
-        name: tr.querySelector('.f-name').value,
-        logo: tr.querySelector('.f-logo').value
-    };
-    const res = await fetch(BRANDS_API + '/' + id, {
-        method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
-    });
-    if (!res.ok) { alert('Ошибка: ' + (await res.text())); return; }
+async function saveBrandsBlock() {
+    for (const tr of brandsTbody.querySelectorAll('tr')) {
+        const body = {
+            name: tr.querySelector('.f-name').value,
+            logo: tr.querySelector('.f-logo').value
+        };
+        const res = await fetch(BRANDS_API + '/' + tr.dataset.id, {
+            method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
+        });
+        if (!res.ok) { alert('Ошибка: ' + (await res.text())); return; }
+    }
     await loadBrands();
+    alert('Блок сохранён');
 }
 
 async function deleteBrand(id) {
@@ -415,7 +441,6 @@ function buildDirectionRow(d) {
             <button class="save">Сохранить</button>
             <button class="danger del">Удалить</button>
         </td>`;
-    tr.querySelector('.save').addEventListener('click', () => saveDirection(d.id, tr));
     tr.querySelector('.del').addEventListener('click', () => deleteDirection(d.id));
     attachDrag(tr, saveDirectionsOrder);
     return tr;
@@ -444,17 +469,20 @@ async function addDirection() {
     await loadDirections();
 }
 
-async function saveDirection(id, tr) {
-    const body = {
-        name: tr.querySelector('.f-name').value,
-        badges: tr.querySelector('.f-badges').value,
-        content: tr.querySelector('.f-content').value
-    };
-    const res = await fetch(DIRECTIONS_API + '/' + id, {
-        method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
-    });
-    if (!res.ok) { alert('Ошибка: ' + (await res.text())); return; }
+async function saveDirectionsBlock() {
+    for (const tr of directionsTbody.querySelectorAll('tr')) {
+        const body = {
+            name: tr.querySelector('.f-name').value,
+            badges: tr.querySelector('.f-badges').value,
+            content: tr.querySelector('.f-content').value
+        };
+        const res = await fetch(DIRECTIONS_API + '/' + tr.dataset.id, {
+            method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
+        });
+        if (!res.ok) { alert('Ошибка: ' + (await res.text())); return; }
+    }
     await loadDirections();
+    alert('Блок сохранён');
 }
 
 async function deleteDirection(id) {
@@ -489,7 +517,6 @@ function buildVacancyRow(v) {
             <button class="save">Сохранить</button>
             <button class="danger del">Удалить</button>
         </td>`;
-    tr.querySelector('.save').addEventListener('click', () => saveVacancy(v.id, tr));
     tr.querySelector('.del').addEventListener('click', () => deleteVacancy(v.id));
     attachDrag(tr, saveVacanciesOrder);
     return tr;
@@ -518,17 +545,20 @@ async function addVacancy() {
     await loadVacancies();
 }
 
-async function saveVacancy(id, tr) {
-    const body = {
-        title: tr.querySelector('.f-title').value,
-        address: tr.querySelector('.f-address').value,
-        url: tr.querySelector('.f-url').value
-    };
-    const res = await fetch(VACANCIES_API + '/' + id, {
-        method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
-    });
-    if (!res.ok) { alert('Ошибка: ' + (await res.text())); return; }
+async function saveVacanciesBlock() {
+    for (const tr of vacanciesTbody.querySelectorAll('tr')) {
+        const body = {
+            title: tr.querySelector('.f-title').value,
+            address: tr.querySelector('.f-address').value,
+            url: tr.querySelector('.f-url').value
+        };
+        const res = await fetch(VACANCIES_API + '/' + tr.dataset.id, {
+            method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
+        });
+        if (!res.ok) { alert('Ошибка: ' + (await res.text())); return; }
+    }
     await loadVacancies();
+    alert('Блок сохранён');
 }
 
 async function deleteVacancy(id) {
@@ -547,6 +577,7 @@ async function uploadFile(fileInput, targetInput) {
     if (!res.ok) { alert('Ошибка загрузки: ' + (await res.text())); return; }
     const data = await res.json();
     targetInput.value = data.url;
+    targetInput.dispatchEvent(new Event('input'));
     fileInput.value = '';
 }
 
@@ -588,7 +619,6 @@ function buildGalleryRow(g) {
         </td>`;
     tr.querySelector('.f-type').value = g.type;
     tr.querySelector('.upload').addEventListener('click', () => uploadFile(tr.querySelector('.f-file'), tr.querySelector('.f-url')));
-    tr.querySelector('.save').addEventListener('click', () => saveGallery(g.id, tr));
     tr.querySelector('.del').addEventListener('click', () => deleteGallery(g.id));
     attachDrag(tr, saveGalleryOrder);
     return tr;
@@ -617,17 +647,20 @@ async function addGallery() {
     await loadGallery();
 }
 
-async function saveGallery(id, tr) {
-    const body = {
-        type: tr.querySelector('.f-type').value,
-        imageUrl: tr.querySelector('.f-url').value,
-        caption: tr.querySelector('.f-caption').value
-    };
-    const res = await fetch(GALLERY_API + '/' + id, {
-        method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
-    });
-    if (!res.ok) { alert('Ошибка: ' + (await res.text())); return; }
+async function saveGalleryBlock() {
+    for (const tr of galleryTbody.querySelectorAll('tr')) {
+        const body = {
+            type: tr.querySelector('.f-type').value,
+            imageUrl: tr.querySelector('.f-url').value,
+            caption: tr.querySelector('.f-caption').value
+        };
+        const res = await fetch(GALLERY_API + '/' + tr.dataset.id, {
+            method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
+        });
+        if (!res.ok) { alert('Ошибка: ' + (await res.text())); return; }
+    }
     await loadGallery();
+    alert('Блок сохранён');
 }
 
 async function deleteGallery(id) {

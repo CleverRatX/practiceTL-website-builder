@@ -298,3 +298,50 @@ code {
 .media-folder:hover {
   background: #f5f7fb;
 }
+
+.acc {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-top: 12px;
+  overflow: hidden;
+}
+
+.acc-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: #f5f7fb;
+  cursor: pointer;
+  user-select: none;
+}
+
+.acc-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1e2327;
+}
+
+.acc-chevron {
+  color: #2b579a;
+  transition: transform 0.3s ease;
+}
+
+.acc.open .acc-chevron {
+  transform: rotate(180deg);
+}
+
+.acc-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s ease;
+}
+
+.acc.open .acc-body {
+  grid-template-rows: 1fr;
+}
+
+.acc-body-inner {
+  overflow: hidden;
+  padding: 0 16px;
+}
