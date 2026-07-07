@@ -659,6 +659,148 @@ async function deleteGallery(id) {
     await loadGallery();
 }
 
+const BENEFITS_API = '/api/benefits';
+const benefitsTbody = document.getElementById('benefits-items');
+enableDropZone(benefitsTbody);
+
+async function loadBenefits() {
+    const res = await fetch(BENEFITS_API);
+    const items = await res.json();
+    benefitsTbody.innerHTML = '';
+    for (const b of items) {
+        benefitsTbody.appendChild(buildBenefitRow(b));
+    }
+}
+
+function buildBenefitRow(b) {
+    const tr = document.createElement('tr');
+    tr.dataset.id = b.id;
+    tr.innerHTML = `
+        <td class="drag-handle">≡</td>
+        <td><input class="f-title" value="${escapeHtml(b.title)}"></td>
+        <td><input class="f-text" value="${escapeHtml(b.text)}"></td>
+        <td class="row-actions">
+            <button class="save">Сохранить</button>
+            <button class="danger del">Удалить</button>
+        </td>`;
+    tr.querySelector('.save').addEventListener('click', () => saveBenefit(b.id, tr));
+    tr.querySelector('.del').addEventListener('click', () => deleteBenefit(b.id));
+    attachDrag(tr, saveBenefitsOrder);
+    return tr;
+}
+
+async function saveBenefitsOrder() {
+    const ids = [...benefitsTbody.querySelectorAll('tr')].map(tr => Number(tr.dataset.id));
+    const res = await fetch(BENEFITS_API + '/reorder', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(ids)
+    });
+    if (!res.ok) { alert('Не удалось сохранить порядок'); }
+    await loadBenefits();
+}
+
+async function addBenefit() {
+    const body = {
+        title: document.getElementById('new-ben-title').value,
+        text: document.getElementById('new-ben-text').value
+    };
+    const res = await fetch(BENEFITS_API, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
+    });
+    if (!res.ok) { alert('Ошибка: ' + (await res.text())); return; }
+    ['new-ben-title', 'new-ben-text'].forEach(id => document.getElementById(id).value = '');
+    await loadBenefits();
+}
+
+async function saveBenefit(id, tr) {
+    const body = {
+        title: tr.querySelector('.f-title').value,
+        text: tr.querySelector('.f-text').value
+    };
+    const res = await fetch(BENEFITS_API + '/' + id, {
+        method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
+    });
+    if (!res.ok) { alert('Ошибка: ' + (await res.text())); return; }
+    await loadBenefits();
+}
+
+async function deleteBenefit(id) {
+    if (!confirm('Удалить плюшку #' + id + '?')) return;
+    const res = await fetch(BENEFITS_API + '/' + id, { method: 'DELETE' });
+    if (!res.ok) { alert('Ошибка: ' + (await res.text())); return; }
+    await loadBenefits();
+}
+
+const OFFICES_API = '/api/offices';
+const officesTbody = document.getElementById('offices-items');
+enableDropZone(officesTbody);
+
+async function loadOffices() {
+    const res = await fetch(OFFICES_API);
+    const items = await res.json();
+    officesTbody.innerHTML = '';
+    for (const o of items) {
+        officesTbody.appendChild(buildOfficeRow(o));
+    }
+}
+
+function buildOfficeRow(o) {
+    const tr = document.createElement('tr');
+    tr.dataset.id = o.id;
+    tr.innerHTML = `
+        <td class="drag-handle">≡</td>
+        <td>
+            <input class="f-url" value="${escapeHtml(o.imageUrl)}">
+            <div class="upload-row">
+                <input type="file" class="f-file" accept="image/*">
+                <button type="button" class="upload">Загрузить</button>
+            </div>
+        </td>
+        <td class="row-actions">
+            <button class="save">Сохранить</button>
+            <button class="danger del">Удалить</button>
+        </td>`;
+    tr.querySelector('.upload').addEventListener('click', () => uploadFile(tr.querySelector('.f-file'), tr.querySelector('.f-url')));
+    tr.querySelector('.save').addEventListener('click', () => saveOffice(o.id, tr));
+    tr.querySelector('.del').addEventListener('click', () => deleteOffice(o.id));
+    attachDrag(tr, saveOfficesOrder);
+    return tr;
+}
+
+async function saveOfficesOrder() {
+    const ids = [...officesTbody.querySelectorAll('tr')].map(tr => Number(tr.dataset.id));
+    const res = await fetch(OFFICES_API + '/reorder', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(ids)
+    });
+    if (!res.ok) { alert('Не удалось сохранить порядок'); }
+    await loadOffices();
+}
+
+async function addOffice() {
+    const body = { imageUrl: document.getElementById('new-off-url').value };
+    const res = await fetch(OFFICES_API, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
+    });
+    if (!res.ok) { alert('Ошибка: ' + (await res.text())); return; }
+    document.getElementById('new-off-url').value = '';
+    await loadOffices();
+}
+
+async function saveOffice(id, tr) {
+    const body = { imageUrl: tr.querySelector('.f-url').value };
+    const res = await fetch(OFFICES_API + '/' + id, {
+        method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
+    });
+    if (!res.ok) { alert('Ошибка: ' + (await res.text())); return; }
+    await loadOffices();
+}
+
+async function deleteOffice(id) {
+    if (!confirm('Удалить фото офиса #' + id + '?')) return;
+    const res = await fetch(OFFICES_API + '/' + id, { method: 'DELETE' });
+    if (!res.ok) { alert('Ошибка: ' + (await res.text())); return; }
+    await loadOffices();
+}
+
 async function logout() {
     await fetch('/api/auth/logout', { method: 'POST' });
     window.location.href = '/login.html';
@@ -795,3 +937,5 @@ loadBrands();
 loadDirections();
 loadVacancies();
 loadGallery();
+loadBenefits();
+loadOffices();

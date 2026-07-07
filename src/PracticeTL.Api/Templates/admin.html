@@ -348,6 +348,79 @@
                     </div>
                 </div>
             </div>
+
+            <div class="acc">
+                <div class="acc-head" onclick="toggleAcc(this)">
+                    <span class="acc-title">Плюшки</span>
+                    <span class="acc-chevron">▴</span>
+                </div>
+                <div class="acc-body">
+                    <div class="acc-body-inner">
+
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th style="width:220px">Заголовок</th>
+                                    <th>Текст</th>
+                                    <th style="width:170px">Действия</th>
+                                </tr>
+                            </thead>
+                            <tbody id="benefits-items"></tbody>
+                        </table>
+
+                        <div class="add-form">
+                            <h3>Добавить плюшку</h3>
+                            <div class="grid grid--2">
+                                <div>
+                                    <label>Заголовок</label>
+                                    <input id="new-ben-title" placeholder="Заголовок">
+                                </div>
+                                <div>
+                                    <label>Текст</label>
+                                    <input id="new-ben-text" placeholder="Что входит в эту плюшку">
+                                </div>
+                            </div>
+                            <p><button onclick="addBenefit()">Добавить</button></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="acc">
+                <div class="acc-head" onclick="toggleAcc(this)">
+                    <span class="acc-title">Офисы</span>
+                    <span class="acc-chevron">▴</span>
+                </div>
+                <div class="acc-body">
+                    <div class="acc-body-inner">
+
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Ссылка на фото</th>
+                                    <th style="width:170px">Действия</th>
+                                </tr>
+                            </thead>
+                            <tbody id="offices-items"></tbody>
+                        </table>
+
+                        <div class="add-form">
+                            <h3>Добавить фото офиса</h3>
+                            <div>
+                                <label>Ссылка на фото</label>
+                                <input id="new-off-url" placeholder="/media/main/offices/...">
+                                <div class="upload-row">
+                                    <input type="file" id="new-off-file" accept="image/*">
+                                    <button type="button" onclick="uploadFile(document.getElementById('new-off-file'), document.getElementById('new-off-url'))">Загрузить файл</button>
+                                </div>
+                            </div>
+                            <p><button onclick="addOffice()">Добавить</button></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div id="tab-visibility" class="tab">

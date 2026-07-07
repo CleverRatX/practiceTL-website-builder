@@ -16,6 +16,8 @@ public class HomeController : ControllerBase
     private readonly IDirectionService _directionService;
     private readonly IVacancyService _vacancyService;
     private readonly IGalleryService _galleryService;
+    private readonly IBenefitService _benefitService;
+    private readonly IOfficeService _officeService;
     private readonly IBlockSettingService _blockService;
     private readonly IWebHostEnvironment _env;
 
@@ -27,6 +29,8 @@ public class HomeController : ControllerBase
         IDirectionService directionService,
         IVacancyService vacancyService,
         IGalleryService galleryService,
+        IBenefitService benefitService,
+        IOfficeService officeService,
         IBlockSettingService blockService,
         IWebHostEnvironment env)
     {
@@ -37,6 +41,8 @@ public class HomeController : ControllerBase
         _directionService = directionService;
         _vacancyService = vacancyService;
         _galleryService = galleryService;
+        _benefitService = benefitService;
+        _officeService = officeService;
         _blockService = blockService;
         _env = env;
     }
@@ -64,6 +70,8 @@ public class HomeController : ControllerBase
         var directions = await _directionService.GetAllAsync();
         var vacancies = await _vacancyService.GetAllAsync();
         var gallery = await _galleryService.GetAllAsync();
+        var benefits = await _benefitService.GetAllAsync();
+        var offices = await _officeService.GetAllAsync();
 
         html = html
             .Replace("<!--HERO_TITLE-->", Enc(hero.Title))
@@ -75,7 +83,9 @@ public class HomeController : ControllerBase
             .Replace("<!--BRANDS_ITEMS-->", BuildBrands(brands))
             .Replace("<!--DIRECTIONS_ITEMS-->", BuildDirections(directions))
             .Replace("<!--VACANCIES_ITEMS-->", BuildVacancies(vacancies))
-            .Replace("<!--GALLERY_ITEMS-->", BuildGallery(gallery));
+            .Replace("<!--GALLERY_ITEMS-->", BuildGallery(gallery))
+            .Replace("<!--BENEFITS_ITEMS-->", BuildBenefits(benefits))
+            .Replace("<!--OFFICES_ITEMS-->", BuildOffices(offices));
 
         var blocks = await _blockService.GetAllAsync();
         foreach (var b in blocks)
@@ -266,6 +276,35 @@ public class HomeController : ControllerBase
                 sb.Append($"<img src=\"{Enc(g.ImageUrl)}\" alt=\"\" class=\"card card--rounded\">");
             sb.Append($"<p class=\"gallery__item-text\">{Enc(g.Caption)}</p>");
             sb.Append("</div>");
+        }
+        return sb.ToString();
+    }
+
+    private static string BuildBenefits(List<Benefit> items)
+    {
+        var sb = new StringBuilder();
+        var index = 0;
+        foreach (var b in items)
+        {
+            var variant = (index % 8) + 1;
+            sb.Append($"<article class=\"bonus__item bonus__item--{variant} card card--half-rounded card--default\">");
+            sb.Append($"<h3 class=\"card__title bonus__item-title\">{Enc(b.Title)}</h3>");
+            sb.Append($"<p class=\"card__text bonus__item-text\">{Enc(b.Text)}</p>");
+            sb.Append("</article>");
+            index++;
+        }
+        return sb.ToString();
+    }
+
+    private static string BuildOffices(List<Office> items)
+    {
+        var sb = new StringBuilder();
+        foreach (var o in items)
+        {
+            sb.Append("<div class=\"work__container\">");
+            sb.Append("<div class=\"card card--center card--half-rounded\">");
+            sb.Append($"<img src=\"{Enc(o.ImageUrl)}\" width=\"800\" height=\"525\" alt=\"TL-Ofice\">");
+            sb.Append("</div></div>");
         }
         return sb.ToString();
     }

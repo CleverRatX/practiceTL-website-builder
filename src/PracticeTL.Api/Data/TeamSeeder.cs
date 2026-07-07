@@ -12,18 +12,18 @@ public static class TeamSeeder
         var members = new (string Name, string Position, string File)[]
         {
             ("Алексей Герасимов", "CTO", "aleksey_gerasimov.png"),
-            ("Юра Костин", "CPO", "yura_kostin.png"),
+            ("Юра Костин", "CTO", "yura_kostin.png"),
             ("Ваня Потехин", "старший руководитель проектов", "vanya_potehin.png"),
             ("Настя Ягодарова", "руководитель проекта", "nastya_yagodarova.png"),
-            ("Гасан Агаев", "разработчик", "gasan_agaev.png"),
-            ("Игорь Егошин", "разработчик", "igor_egoshin.png"),
-            ("Костя Дмитриев", "разработчик", "kostya_dmitriev.png"),
-            ("Лена Мочалова", "руководитель проекта", "lena_mochalova.png"),
-            ("Настя Волкова", "аналитик", "nastya_volkova.png"),
-            ("Оля Рядова", "дизайнер", "olya_ryadova.png"),
-            ("Саша Очеев", "разработчик", "sasha_ocheev.png"),
-            ("Таня Глазырина", "тестировщик", "tanya_glazirina.png"),
-            ("Женя Гермогенов", "разработчик", "zhenya_germogenov.png")
+            ("Гасан Агаев", "руководитель проекта", "gasan_agaev.png"),
+            ("Игорь Егошин", "старший инженер-программист", "igor_egoshin.png"),
+            ("Костя Дмитриев", "специалист по информационным системам", "kostya_dmitriev.png"),
+            ("Лена Мочалова", "руководитель HR-отдела", "lena_mochalova.png"),
+            ("Настя Волкова", "руководитель отдела дизайна", "nastya_volkova.png"),
+            ("Оля Рядова", "руководитель отдела аналитики", "olya_ryadova.png"),
+            ("Саша Очеев", "инженер-программист", "sasha_ocheev.png"),
+            ("Таня Глазырина", "продуктовый дизайнер", "tanya_glazirina.png"),
+            ("Женя Гермогенов", "старший руководитель проектов", "zhenya_germogenov.png")
         };
 
         var order = 1;

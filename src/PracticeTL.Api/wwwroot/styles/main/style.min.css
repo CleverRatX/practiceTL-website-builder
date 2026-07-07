@@ -658,42 +658,51 @@ ul {
     padding: 13px;
   }
 }
+
 .button--full-width,
 .platform.active .platform-chart::before {
   width: 100%;
 }
+
 .button--primary {
   color: #323e59;
   background-color: #fff;
 }
+
 .button--primary:hover,
 .button--secondary {
   color: #fff;
   background-color: #507bce;
 }
+
 .button--light:hover,
 .button--secondary:hover,
 .header--type-dark .button:hover {
   background-color: #3c67ba;
 }
+
 .button--light {
   color: #507bce;
   background-color: #fff;
 }
+
 .button--type-menu-toggler {
   display: none;
 }
+
 .heading {
   font-family: "Involve", Arial, sans-serif;
   font-weight: 600;
   font-style: normal;
   line-height: normal;
 }
+
 .heading--type-h1 {
   font-size: 96px;
   line-height: 107px;
   font-weight: 500;
 }
+
 @media (max-width: 1600px) {
   .heading--type-h1 {
     font-size: 64px;

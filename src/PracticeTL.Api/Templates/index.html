@@ -13,10 +13,15 @@
             .page--dark-bg .platform,
             .page--dark-bg .directions,
             .page--dark-bg .slogan,
-            .page--dark-bg .vacancies {
+            .page--dark-bg .vacancies,
+            .page--dark-bg .work,
+            .page--dark-bg .bonus {
                 background-color: #fff;
             }
             .page--dark-bg .team {
+                background-color: #507bce;
+            }
+            .page--dark-bg .gallery {
                 background-color: #12203b;
             }
         </style>
@@ -40,7 +45,7 @@
                 <nav class="header__nav header__nav--bp-laptop nav">
                     <ul class="header__nav-list nav__list">
                         <li class="header__nav-item nav__item">
-                            <a class="hash-link" href="#advantages" data-target="advantages">
+                            <a class="hash-link" href="javascript:void(0)" data-target="advantages">
                                 О TravelLine
                             </a>
                         </li>
@@ -256,6 +261,41 @@
                 <div class="container gallery__container"><!--GALLERY_ITEMS--></div>
             </section>
             <!--/BLOCK:gallery-->
+
+            <!-- Offices -->
+            <section class="section work" id="work">
+                <section class="section section--center work__section">
+                    <div class="work__container work__container--first container container--size-s">
+                        <h2 class="work__heading heading heading--type-slogan heading--color-accent">
+                            Работай как удобно
+                        </h2>
+                        <p class="work__slogan">
+                            Наши офисы в Йошкар-Оле, Казани и Санкт-Петербурге,
+                            а удаленные сотрудники более чем в 30ти городах
+                        </p>
+                    </div>
+                </section>
+
+                <section class="section section--center work__section work__section--scroll container">
+                    <!--OFFICES_ITEMS-->
+                    <div class="work__container work__container--text">
+                        <p>
+                            Если твоя команда в другом городе, мы поддерживаем и оплачиваем поездки, чтобы вы могли встретиться и пообщаться лично
+                        </p>
+                    </div>
+                </section>
+            </section>
+
+            <!-- Benefits -->
+            <section class="section section--full-height bonus" id="bonus">
+                <div class="container container--size-m">
+                    <h2 class="bonus__title heading heading--type-section">
+                        Плюшки и все такое
+                    </h2>
+
+                    <div class="bonus__list"><!--BENEFITS_ITEMS--></div>
+                </div>
+            </section>
 
 
             <script src="./scripts/lenis.min.js"></script>
