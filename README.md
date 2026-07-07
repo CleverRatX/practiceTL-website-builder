@@ -21,8 +21,8 @@
 - [x] directions
 - [x] vacancies
 - [x] gallery
-- [ ] offices
-- [ ] benefits
+- [x] offices
+- [x] benefits
 - [ ] contact
 
 ## Тесты

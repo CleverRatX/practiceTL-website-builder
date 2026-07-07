@@ -16,10 +16,14 @@
     ].filter(s => s.el);
 
     function updateHeader() {
-        const line = header.offsetHeight;
+        const rect = header.getBoundingClientRect();
+        const el = document.elementFromPoint(window.innerWidth / 2, rect.bottom + 4);
+ 
         let mode = 'dark';
-        for (const s of sections) {
-            if (s.el.getBoundingClientRect().top <= line) mode = s.mode;
+        if (el) {
+            for (const s of sections) {
+                if (s.el.contains(el)) { mode = s.mode; break; }
+            }
         }
         header.classList.toggle('header--type-dark', mode === 'dark');
         header.classList.toggle('header--type-hidden', mode === 'hidden');
