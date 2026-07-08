@@ -80,7 +80,7 @@ docker-compose down
 ```
 
 Публичная страница: http://localhost:8080
-Админ-панель: http://localhost:8080/admin
+Админ-панель: http://localhost:8080/admin.html
 
 ## 🧪 Тестирование
 
